@@ -1,0 +1,2 @@
+class PriceQuery < ApplicationRecord
+end
