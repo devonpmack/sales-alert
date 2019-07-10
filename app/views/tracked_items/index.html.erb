@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Tracked Items</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Url</th>
+      <th>Threshold</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tracked_items.each do |tracked_item| %>
+      <tr>
+        <td><%= tracked_item.name %></td>
+        <td><%= tracked_item.url %></td>
+        <td><%= tracked_item.threshold %></td>
+        <td><%= link_to 'Show', tracked_item %></td>
+        <td><%= link_to 'Edit', edit_tracked_item_path(tracked_item) %></td>
+        <td><%= link_to 'Destroy', tracked_item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Tracked Item', new_tracked_item_path %>

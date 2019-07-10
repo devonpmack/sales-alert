@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @tracked_item.name %>
+</p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @tracked_item.url %>
+</p>
+
+<p>
+  <strong>Threshold:</strong>
+  <%= @tracked_item.threshold %>
+</p>
+
+<%= link_to 'Edit', edit_tracked_item_path(@tracked_item) %> |
+<%= link_to 'Back', tracked_items_path %>
