@@ -10,12 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_10_013820) do
+ActiveRecord::Schema.define(version: 2019_07_10_015910) do
 
   create_table "price_queries", force: :cascade do |t|
     t.float "price"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "tracked_item_id"
+    t.index ["tracked_item_id"], name: "index_price_queries_on_tracked_item_id"
   end
 
   create_table "tracked_items", force: :cascade do |t|
@@ -24,6 +26,8 @@ ActiveRecord::Schema.define(version: 2019_07_10_013820) do
     t.float "threshold"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_tracked_items_on_user_id"
   end
 
   create_table "trackers", force: :cascade do |t|
