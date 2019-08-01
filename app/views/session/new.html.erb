@@ -1,0 +1,15 @@
+<h1>Log in</h1>
+
+<%= form_for 'login', controller: 'session', action: 'create', method: :post do |f| %>
+  <%= f.label :email %>
+  <%= f.text_field :email %>
+
+  <%= f.label :password %>
+  <%= f.password_field :password %>
+  <br>
+
+  <%= f.submit 'create' %>
+<% end %>
+
+<%= link_to 'Back', root_path %>
+
