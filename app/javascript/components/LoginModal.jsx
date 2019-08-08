@@ -1,8 +1,24 @@
 import React, {useState} from 'react';
 import { Modal, TextField } from '@shopify/polaris';
-
+import FormState from '@shopify/react-form-state';
 export default function LoginModal(props) {
   const { registerMode, setRegisterMode } = props;
+
+  const formMarkup = registerMode ? (<div/>) : (
+    <FormState initialValues={{email: '', password: ''}}>
+      {formDetails => { 
+        const {fields: {email, password}} = formDetails;
+        return (
+          <form>
+            <TextField {...email} label="Email" type="email"></TextField>
+            <TextField {...password} label="Password" type="password"></TextField>
+          </form>
+        );
+      }}
+        
+    </FormState>
+  );
+
   return (
     <Modal
       title={registerMode ? 'Register' : 'Log in'}
@@ -20,11 +36,7 @@ export default function LoginModal(props) {
       onClose={props.onClose}
     >
       <Modal.Section>
-        <TextField label="Email" type="email"></TextField>
-        <TextField label="Password" type="password"></TextField>
-        {(registerMode) && 
-            <TextField label="Confirm Password" type="password"></TextField>
-        }
+        {formMarkup}
       </Modal.Section>
     </Modal>
   );
