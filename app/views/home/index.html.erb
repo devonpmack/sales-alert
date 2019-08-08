@@ -1,18 +1,2 @@
-
-
-<h1>Sales Watch</h1>
-
-<body>
-<p>Hello World</p>
-</body>
-
-<% if !session[:id].nil? %>
-  <%= link_to 'My profile', 'profile' %>
-<% else %>
-<%= link_to 'Log in', 'login' %>
-<% end %>
-
-<br>
-
-<%= link_to 'Create Account', new_user_path %>
+<%= react_component("Lander", { loggedIn: !session[:id].nil? }) %>
 

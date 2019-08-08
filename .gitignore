@@ -36,3 +36,5 @@ yarn-debug.log*
 
 .idea
 .idea/*
+
+package.json
