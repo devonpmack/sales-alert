@@ -15,7 +15,9 @@ class RunQueriesJob < ApplicationJob
         price_block = doc.at_css("span#priceblock_dealprice")
       end
 
-      logger.info price_block.children.first.text
+      price_dollars = price_block.children.first.text.sub("CDN", "CAD").to_money.dollars.to_f
+
+      logger.info price_dollars
       break
       # PriceQuery.create!(tracked_item_id: item.id, price: 20);
     end

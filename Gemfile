@@ -56,3 +56,4 @@ gem 'bcrypt'
 
 gem 'webpacker'
 gem 'react-rails'
+gem 'monetize'
