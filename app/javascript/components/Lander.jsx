@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {HashRouter, Route} from 'react-router-dom';
+import {HashRouter, Route, Redirect} from 'react-router-dom';
 import axios from 'axios-on-rails';
 import {
   AppProvider,
@@ -32,22 +32,19 @@ export default function Lander(props) {
     logo: {
       width: 124,
       topBarSource: 'https://i.imgur.com/eJHZaPA.png',
-      onAction: () => (window.location.href = '/'),
+      onAction: () => (window.location.href = '/#/'),
       accessibilityLabel: 'Sales Wink',
       contextualSaveBarSource: 'https://i.imgur.com/eJHZaPA.png',
     },
   };
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(true);
   const [registerMode, setRegisterMode] = useState(false);
-
-  useEffect(
-    () => {
-      setLoggedIn(props.loggedIn);
-    },
-    [props.loggedIn],
-  );
+  const [currentUser, setCurrentUser] = useState(null);
+  const {currentUser: savedUser} = props;
+  if (savedUser) {
+    setCurrentUser(savedUser);
+  }
 
   const toggleUserMenu = () => {
     setUserMenuOpen(!userMenuOpen);
@@ -60,13 +57,17 @@ export default function Lander(props) {
   const loginModalMarkup = (
     <LoginModal
       onClose={toggleLoginOpen}
-      open={loginOpen}
+      open={loginOpen && !currentUser}
       registerMode={registerMode}
       setRegisterMode={setRegisterMode}
+      loggedIn={Boolean(currentUser)}
+      onLoggedIn={(user) => {
+        setCurrentUser(user);
+      }}
     />
   );
 
-  const userMenuMarkup = loggedIn && (
+  const userMenuMarkup = currentUser && (
     <TopBar.UserMenu
       actions={[
         {
@@ -93,7 +94,11 @@ export default function Lander(props) {
         },
       ]}
       detail="Free Member"
-      initials="D"
+      initials={
+        currentUser &&
+        currentUser.email &&
+        currentUser.email.charAt(0).toUpperCase()
+      }
       open={userMenuOpen}
       onToggle={toggleUserMenu}
     />
@@ -106,6 +111,7 @@ export default function Lander(props) {
       <HashRouter>
         <AppProvider theme={theme}>
           <Frame topBar={topBarMarkup}>
+            {currentUser && <Redirect to="/profile" />}
             {loginModalMarkup}
             <Route
               path="/"

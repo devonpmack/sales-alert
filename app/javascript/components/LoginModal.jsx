@@ -2,10 +2,11 @@ import React, {useState} from 'react';
 import {Modal, TextField} from '@shopify/polaris';
 import FormState from '@shopify/react-form-state';
 import axios from 'axios-on-rails';
+import {Redirect} from 'react-router-dom';
 
 export default function LoginModal(props) {
-  const {registerMode, setRegisterMode} = props;
-  const {isLoggedIn, setLoggedIn} = useState(false);
+  const {loggedIn, registerMode, setRegisterMode, onLoggedIn} = props;
+  if (loggedIn) return null;
   const formMarkup = registerMode ? (
     <div />
   ) : (
@@ -22,10 +23,12 @@ export default function LoginModal(props) {
             primaryAction={{
               content: 'Confirm',
               onAction: async () => {
-                await axios.post('/login', {
+                const response = await axios.post('/login', {
                   login: {email: email.value, password: password.value},
                 });
-                setLoggedIn(true);
+                if (response.data.success) {
+                  onLoggedIn(response.data);
+                }
               },
             }}
             secondaryActions={[
