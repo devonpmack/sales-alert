@@ -10,6 +10,10 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    respond_to do |format|
+      msg = @user.tracked_items
+      format.json { render json: msg }
+    end
   end
 
   # GET /users/new

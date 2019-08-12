@@ -120,7 +120,10 @@ export default function Lander(props) {
                 <Welcome {...rprops} toggleLogin={toggleLoginOpen} />
               )}
             />
-            <Route path="/profile" component={Profile} />
+            <Route
+              path="/profile"
+              render={(rprops) => <Profile {...rprops} user={currentUser} />}
+            />
           </Frame>
         </AppProvider>
       </HashRouter>

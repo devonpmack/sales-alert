@@ -18,8 +18,7 @@ class RunQueriesJob < ApplicationJob
       price_dollars = price_block.children.first.text.sub("CDN", "CAD").to_money.dollars.to_f
 
       logger.info price_dollars
-      break
-      # PriceQuery.create!(tracked_item_id: item.id, price: 20);
+      PriceQuery.create!(tracked_item_id: item.id, price: price_dollars);
     end
   end
 end

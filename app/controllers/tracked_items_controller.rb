@@ -69,6 +69,6 @@ class TrackedItemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def tracked_item_params
-      params.require(:tracked_item).permit(:name, :url, :threshold)
+      params.require(:tracked_item).permit(:name, :url, :threshold, :user_id)
     end
 end
