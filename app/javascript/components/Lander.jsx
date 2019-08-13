@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {HashRouter, Route, Redirect} from 'react-router-dom';
 import axios from 'axios-on-rails';
+import Cookies from 'js-cookie';
 import {
   AppProvider,
   CalloutCard,
@@ -42,8 +43,13 @@ export default function Lander(props) {
   const [registerMode, setRegisterMode] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const {currentUser: savedUser} = props;
-  if (savedUser) {
+  if (savedUser && !currentUser) {
     setCurrentUser(savedUser);
+  }
+
+  const cookie = Cookies.get('user');
+  if (!currentUser && cookie) {
+    setCurrentUser(JSON.parse(cookie));
   }
 
   const toggleUserMenu = () => {
@@ -63,6 +69,7 @@ export default function Lander(props) {
       loggedIn={Boolean(currentUser)}
       onLoggedIn={(user) => {
         setCurrentUser(user);
+        Cookies.set('user', user, {expires: 7});
       }}
     />
   );
@@ -74,7 +81,7 @@ export default function Lander(props) {
           items: [
             {
               content: 'My Profile',
-              onAction: () => (window.location.href = '/profile'),
+              onAction: () => (window.location.href = '/#/profile'),
             },
           ],
         },
@@ -88,6 +95,7 @@ export default function Lander(props) {
               onAction: async () => {
                 await axios.delete('/login');
                 document.location.href = '/';
+                Cookies.remove('user');
               },
             },
           ],

@@ -18,7 +18,6 @@ export default function Profile(props) {
   const {user} = props;
 
   if (!user) return <Redirect to="/" />;
-
   const [stale, setStale] = useState(false);
   const [itemOpen, setItemOpen] = useState(null);
   const [createMode, setCreateMode] = useState(false);
@@ -54,6 +53,7 @@ export default function Profile(props) {
           </CalloutCard>
           <Card title="Your Winks">
             <Card.Section>
+              {/* <Route path="/:id" component={Child}/> */}
               <WinkEditor
                 loading={loading}
                 items={items}
