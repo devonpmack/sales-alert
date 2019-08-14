@@ -58,8 +58,8 @@ export default function WinkFormModal(props) {
         threshold(input) {
           if (!/^-?[0-9.,]+$/.test(input)) {
             return 'Threshold must be a number';
-          } else if (input < 0) {
-            return 'Threshold must be positive';
+          } else if (input <= 0) {
+            return 'Threshold must be greater than 0';
           }
         },
         url(input) {
@@ -110,7 +110,9 @@ export default function WinkFormModal(props) {
                   <TextField label="URL" {...url} />
                   <Stack distribution="trailing">
                     <Stack.Item fill>
-                      <Button destructive onClick={destroyWink}>Delete</Button>
+                      <Button destructive onClick={destroyWink}>
+                        Delete
+                      </Button>
                     </Stack.Item>
                     {dirty && <Button onClick={reset}>Discard</Button>}
                     <Button primary submit disabled={!dirty}>

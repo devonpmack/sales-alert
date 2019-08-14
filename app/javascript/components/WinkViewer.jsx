@@ -2,28 +2,35 @@ import React from 'react';
 import {ResponsiveLine} from '@nivo/line';
 
 export default function WinkViewer(props) {
-  const {name, threshold, id} = props.wink;
+  const {name, threshold, id, queries} = props.wink;
 
-  const priceHistory = [
-    {x: '2018-01-01', y: 7},
-    {x: '2018-01-02', y: 5},
-    {x: '2018-01-03', y: 11},
-    {x: '2018-01-04', y: 9},
-    {x: '2018-01-05', y: 12},
-    {x: '2018-01-06', y: 16},
-    {x: '2018-01-07', y: 13},
-    {x: '2018-01-08', y: 13},
-  ];
+  if (!queries || queries.length === 0) {
+    return <div />;
+  }
+
+  const priceHistory = queries.map((query) => {
+    return {
+      x: new Date(query.date),
+      y: query.price,
+    };
+  });
+
+  if (priceHistory.length === 1) {
+    priceHistory.push({
+      x: new Date(priceHistory[0].x.getTime() + 10000),
+      y: priceHistory[0].y,
+    });
+  }
 
   const thresholdLine = [
-    {x: priceHistory[0].x, y: threshold},
+    {x: new Date(priceHistory[0].x.getTime() - 10000), y: threshold},
     {x: priceHistory[priceHistory.length - 1].x, y: threshold},
   ];
 
   const data = [
     {
-      id: 'Price over Time',
-      color: 'hsl(79, 70%, 50%)',
+      id: 'Price',
+      color: 'hsl(172, 70%, 50%)',
       data: priceHistory,
     },
     {
@@ -35,41 +42,58 @@ export default function WinkViewer(props) {
   return (
     <div style={{height: '30em'}}>
       <ResponsiveLine
+        colors={{scheme: 'nivo'}}
         margin={{top: 20, right: 20, bottom: 60, left: 55}}
         enableSlices="x"
         data={data}
         xScale={{
           type: 'time',
-          format: '%Y-%m-%d',
-          precision: 'day',
+          format: 'native',
+          precision: 'minute',
         }}
-        xFormat="time:%Y-%m-%d"
-        yScale={{type: 'linear', stacked: false, min: 'auto', max: 'auto'}}
+        xFormat="time:%Y-%m-%d %H:%M:%S"
+        yScale={{
+          type: 'linear',
+          stacked: false,
+          min: threshold * 0.9,
+          max: Math.max(...queries.map((q) => q.price)) * 1.1,
+        }}
         axisLeft={{
           orient: 'left',
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: 'Price',
+          legend: 'Price ($)',
           legendOffset: -40,
           legendPosition: 'middle',
         }}
         axisBottom={{
-          format: '%b %d',
-          tickValues: 'every 2 days',
+          format: '%b %d %H:%M',
+          tickValues: 6,
           legend: 'Time',
           legendOffset: 36,
           legendPosition: 'middle',
         }}
-        enablePointLabel
+        // enablePointLabel
+        // pointLabel={(n) => formatPrice(n.y)}
         pointSize={16}
-        pointBorderWidth={1}
-        pointBorderColor={{
-          from: 'color',
-          modifiers: [['darker', 0.3]],
-        }}
         useMesh
+        enableCrosshair={false}
+        sliceTooltip={(point) => {
+          const dt = point.slice.points.filter(
+            (pt) => pt.serieId === 'Price',
+          )[0];
+          return dt
+            ? `${formatPrice(dt.data.y)} ${new Date(
+                dt.data.x,
+              ).toLocaleString()}`
+            : 'Threshold: 4';
+        }}
       />
     </div>
   );
+}
+
+function formatPrice(n) {
+  return `$${n.toFixed(2)}`;
 }

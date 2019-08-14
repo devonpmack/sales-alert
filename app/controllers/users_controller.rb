@@ -11,7 +11,11 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     respond_to do |format|
-      msg = @user.tracked_items
+      msg = []
+      @user.tracked_items.each do |item|
+        msg << jsonify_tracked_item(item)
+      end
+
       format.json { render json: msg }
     end
   end
@@ -74,5 +78,15 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:email, :password, :password_confirmation)
+    end
+
+    def jsonify_tracked_item(item)
+      return {
+        id: item.id,
+        url: item.url,
+        name: item.name,
+        threshold: item.threshold,
+        queries: item.price_queries.map { |query| {price: query.price, date: query.created_at}}
+      }
     end
 end

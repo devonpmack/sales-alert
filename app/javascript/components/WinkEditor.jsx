@@ -44,14 +44,13 @@ export default function WinkEditor(props) {
             content: 'View',
             onAction: () => {
               setViewingWink(item);
-              setViewingWink;
             },
           },
         ];
         return (
           <ResourceList.Item
             id={id}
-            onClick={() => onClick(item)}
+            onClick={() => setViewingWink(item)}
             shortcutActions={shortcutActions}
           >
             <h3>
