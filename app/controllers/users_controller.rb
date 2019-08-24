@@ -11,12 +11,12 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     respond_to do |format|
-      msg = []
+      winks = []
       @user.tracked_items.each do |item|
-        msg << jsonify_tracked_item(item)
+        winks << jsonify_tracked_item(item)
       end
 
-      format.json { render json: msg }
+      format.json { render json: {winks: winks, email: @user.email, id: @user.id} }
     end
   end
 

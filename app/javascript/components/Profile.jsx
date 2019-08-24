@@ -9,21 +9,49 @@ import {
   Card,
   Modal,
   TextField,
+  SkeletonBodyText,
+  SkeletonPage,
 } from '@shopify/polaris';
-import {useFetch} from './hooks';
 import WinkEditor from './WinkEditor';
 import WinkFormModal from './WinkFormModal';
 
 export default function Profile(props) {
-  const {user} = props;
+  const {user, loading} = props;
 
   const [stale, setStale] = useState(false);
   const [itemOpen, setItemOpen] = useState(null);
   const [createMode, setCreateMode] = useState(false);
   const [viewingWink, setViewingWink] = useState(null);
-  const [items, loading] = useFetch(`/users/${user.id}.json`, stale);
 
-  if (!user) return <Redirect to="/" />;
+  if (loading || loading === undefined) {
+    return (
+      <SkeletonPage title="This is your profile">
+        <Layout>
+          <Layout.Section>
+            <Card title="Keep track of prices all across the web">
+              <Card.Section>
+                <SkeletonBodyText lines={2} />
+              </Card.Section>
+            </Card>
+          </Layout.Section>
+          <Layout.Section>
+            <Card title="Your winks">
+              <Card.Section>
+                <SkeletonBodyText lines={2} />
+              </Card.Section>
+              <Card.Section>
+                <SkeletonBodyText lines={5} />
+              </Card.Section>
+            </Card>
+          </Layout.Section>
+        </Layout>
+      </SkeletonPage>
+    );
+  }
+
+  if (!user) {
+    return <Redirect to="/" />;
+  }
 
   const onWinkClick = (wink) => {
     setItemOpen(wink);
@@ -70,7 +98,7 @@ export default function Profile(props) {
               <WinkEditor
                 setCreateMode={setCreateMode}
                 loading={loading}
-                items={items}
+                items={user && user.winks ? user.winks : []}
                 onClick={onWinkClick}
                 setViewingWink={setViewingWink}
                 viewingWink={viewingWink}

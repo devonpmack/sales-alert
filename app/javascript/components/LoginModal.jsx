@@ -116,7 +116,7 @@ export default function LoginModal(props) {
                 if (response.data.success) {
                   onLoggedIn(response.data);
                 } else {
-                  setError('Invalid username or password.');
+                  setError('Invalid email or password.');
                 }
                 setLoading(false);
               },

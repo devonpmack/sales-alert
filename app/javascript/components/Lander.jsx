@@ -12,6 +12,8 @@ import {
   TextField,
   TopBar,
   Page,
+  Stack,
+  Spinner,
   ContextualSaveBar,
   SettingToggle,
   Layout,
@@ -43,11 +45,27 @@ export default function Lander(props) {
   const [loginOpen, setLoginOpen] = useState(false);
   const [registerMode, setRegisterMode] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const cookie = Cookies.get('user');
-  if (!currentUser && cookie) {
-    setCurrentUser(JSON.parse(cookie));
+  async function getUser(id) {
+    const response = await axios.get(`/users/${id}.json`);
+    // if (!loading) {
+      //todo fix this error
+      // return;
+    // }
+    setCurrentUser(response.data);
+    setLoading(false);
   }
+
+  useEffect(() => {
+    const cookie = Cookies.get('authToken');
+    if (cookie) {
+      getUser(cookie);
+      setLoading(true);
+    } else {
+      setCurrentUser(null);
+    }
+  }, []);
 
   const toggleUserMenu = () => {
     setUserMenuOpen(!userMenuOpen);
@@ -66,8 +84,8 @@ export default function Lander(props) {
       setRegisterMode={setRegisterMode}
       loggedIn={Boolean(currentUser)}
       onLoggedIn={(user) => {
-        setCurrentUser(user);
-        Cookies.set('user', user, {expires: 7});
+        getUser(user.id);
+        Cookies.set('authToken', user.id, {expires: 7});
       }}
     />
   );
@@ -105,7 +123,7 @@ export default function Lander(props) {
               onAction: async () => {
                 await axios.delete('/login');
                 document.location.href = '/';
-                Cookies.remove('user');
+                Cookies.remove('authToken');
               },
             },
           ],
@@ -129,7 +147,7 @@ export default function Lander(props) {
       <HashRouter>
         <AppProvider theme={theme}>
           <Frame topBar={topBarMarkup}>
-            {currentUser && <Redirect to="/profile" />}
+            {currentUser || loading ? <Redirect to="/profile" /> : null}
             {loginModalMarkup}
             <Route
               path="/"
@@ -140,7 +158,9 @@ export default function Lander(props) {
             />
             <Route
               path="/profile"
-              render={(rprops) => <Profile {...rprops} user={currentUser} />}
+              render={(rprops) => (
+                <Profile {...rprops} loading={loading} user={currentUser} />
+              )}
             />
             <Route
               path="/settings"
