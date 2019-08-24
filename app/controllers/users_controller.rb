@@ -34,12 +34,14 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
 
-
     if @user.save
       msg = {success: true, id: @user.id, email: @user.email}
       render json: msg
     else
       msg = {success: false, error: 'That email is in use. Try logging in.'}
+      if @user.errors && @user.errors.messages.first.last.first == "doesn't match Password"
+        msg = {success: false, error: "Password doesn't match password confirmation."}
+      end
       render json: msg
     end
   end
