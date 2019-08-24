@@ -1,7 +1,7 @@
 import React, {useState, Route} from 'react';
 import axios from 'axios-on-rails';
 import {Redirect} from 'react-router-dom';
-import {MobileChevron} from '@shopify/polaris-icons';
+import {MobileChevronMajorMonotone} from '@shopify/polaris-icons';
 import {
   Page,
   Layout,
@@ -21,10 +21,9 @@ export default function Profile(props) {
   const [itemOpen, setItemOpen] = useState(null);
   const [createMode, setCreateMode] = useState(false);
   const [viewingWink, setViewingWink] = useState(null);
+  const [items, loading] = useFetch(`/users/${user.id}.json`, stale);
 
   if (!user) return <Redirect to="/" />;
-
-  const [items, loading] = useFetch(`/users/${user.id}.json`, stale);
 
   const onWinkClick = (wink) => {
     setItemOpen(wink);
@@ -53,7 +52,7 @@ export default function Profile(props) {
               viewingWink && [
                 {
                   content: 'Back',
-                  icon: MobileChevron,
+                  icon: MobileChevronMajorMonotone,
                   onAction: () => {
                     setViewingWink(null);
                   },

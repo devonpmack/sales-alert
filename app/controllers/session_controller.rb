@@ -3,7 +3,7 @@ class SessionController < ApplicationController
         @user = User.find_by(email: params[:login][:email]);
         if @user && @user.authenticate(params[:login][:password])
             session[:id] = @user.id
-            msg = {success: true, id: session[:id], email: @user.email}
+            msg = {success: true, id: @user.id, email: @user.email}
             render json: msg
             return
         end

@@ -12,7 +12,64 @@ export default function LoginModal(props) {
   if (loggedIn) return null;
 
   const formMarkup = registerMode ? (
-    <div />
+    <FormState
+      initialValues={{email: '', password: '', passwordConfirmation: ''}}
+    >
+      {(formDetails) => {
+        const {
+          fields: {email, password, passwordConfirmation},
+        } = formDetails;
+
+        return (
+          <Modal
+            title="Register"
+            loading={loading}
+            open={props.open}
+            primaryAction={{
+              content: 'Register',
+              onAction: async () => {
+                setLoading(true);
+                const response = await axios.post('/users.json', {
+                  user: {
+                    email: email.value,
+                    password: password.value,
+                    password_confirmation: passwordConfirmation.value,
+                  },
+                });
+                if (response.data.success) {
+                  onLoggedIn(response.data);
+                } else {
+                  setError(response.data.error);
+                }
+                setLoading(false);
+              },
+            }}
+            secondaryActions={[
+              {
+                content: 'Already have an account?',
+                onAction: () => {
+                  setRegisterMode(!registerMode);
+                },
+              },
+            ]}
+            onClose={props.onClose}
+          >
+            {error && <Banner status="critical">{error}</Banner>}
+            <Modal.Section>
+              <form>
+                <TextField {...email} label="Email" type="email" />
+                <TextField {...password} label="Password" type="password" />
+                <TextField
+                  {...passwordConfirmation}
+                  label="Confirm Password"
+                  type="password"
+                />
+              </form>
+            </Modal.Section>
+          </Modal>
+        );
+      }}
+    </FormState>
   ) : (
     <FormState initialValues={{email: '', password: ''}}>
       {(formDetails) => {
@@ -22,7 +79,7 @@ export default function LoginModal(props) {
 
         return (
           <Modal
-            title={registerMode ? 'Register' : 'Log in'}
+            title="Log in"
             loading={loading}
             open={props.open}
             primaryAction={{

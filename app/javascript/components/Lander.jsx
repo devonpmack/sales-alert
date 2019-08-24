@@ -56,8 +56,9 @@ export default function Lander(props) {
     setUserMenuOpen(!userMenuOpen);
   };
 
-  const toggleLoginOpen = () => {
+  const toggleLoginOpen = (loginMode = true) => {
     setLoginOpen(!loginOpen);
+    setRegisterMode(!loginMode);
   };
 
   const loginModalMarkup = (

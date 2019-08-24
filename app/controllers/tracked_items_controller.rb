@@ -54,6 +54,7 @@ class TrackedItemsController < ApplicationController
   # DELETE /tracked_items/1
   # DELETE /tracked_items/1.json
   def destroy
+    @tracked_item.price_queries.destroy_all
     @tracked_item.destroy
     respond_to do |format|
       format.html { redirect_to tracked_items_url, notice: 'Tracked item was successfully destroyed.' }

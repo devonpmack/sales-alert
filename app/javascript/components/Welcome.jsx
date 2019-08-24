@@ -17,15 +17,14 @@ export default function Welcome(props) {
             primaryAction={{
               content: 'Log in',
               onAction: () => {
-                toggleLogin();
+                toggleLogin(true);
               },
             }}
             secondaryAction={{
               content: "Don't have an account? Click here to sign up for free!",
-              // onAction: () => {
-              //   setRegisterMode(true);
-              //   toggleLoginOpen();
-              // },
+              onAction: () => {
+                toggleLogin(false);
+              },
             }}
           >
             <p>

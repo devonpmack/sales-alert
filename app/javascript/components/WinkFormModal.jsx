@@ -64,7 +64,7 @@ export default function WinkFormModal(props) {
         },
         url(input) {
           if (
-            !/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/.test(
+            !/^(?:http(s)?:\/\/)?[\w，.-]+(?:\.[\w，\.-]+)+[\w，\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/.test(
               input,
             )
           ) {
@@ -109,14 +109,27 @@ export default function WinkFormModal(props) {
                   <TextField label="Threshold" {...threshold} type="number" />
                   <TextField label="URL" {...url} />
                   <Stack distribution="trailing">
-                    <Stack.Item fill>
-                      <Button destructive onClick={destroyWink}>
-                        Delete
+                    {!createMode && (
+                      <Stack.Item fill>
+                        <Button destructive onClick={destroyWink}>
+                          Delete
+                        </Button>
+                      </Stack.Item>
+                    )}
+                    {dirty && (
+                      <Button
+                        onClick={() => {
+                          if (createMode) {
+                            onClose();
+                          }
+                          reset();
+                        }}
+                      >
+                        Discard
                       </Button>
-                    </Stack.Item>
-                    {dirty && <Button onClick={reset}>Discard</Button>}
+                    )}
                     <Button primary submit disabled={!dirty}>
-                      Confirm
+                      {createMode ? 'Create' : 'Save'}
                     </Button>
                   </Stack>
                 </FormLayout>
