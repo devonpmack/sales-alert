@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Modal, TextField, Banner} from '@shopify/polaris';
 import FormState from '@shopify/react-form-state';
 import axios from 'axios-on-rails';
@@ -8,6 +8,8 @@ export default function LoginModal(props) {
   const {loggedIn, registerMode, setRegisterMode, onLoggedIn} = props;
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => setError(null), [registerMode]);
 
   if (loggedIn) return null;
 
@@ -95,7 +97,7 @@ export default function LoginModal(props) {
     <FormState initialValues={{email: '', password: ''}}>
       {(formDetails) => {
         const {
-          fields: {email, password},
+          fields: {email, password}, dirty,
         } = formDetails;
 
         return (
@@ -104,7 +106,8 @@ export default function LoginModal(props) {
             loading={loading}
             open={props.open}
             primaryAction={{
-              content: 'Confirm',
+              disabled: !dirty,
+              content: 'Log in',
               onAction: async () => {
                 setLoading(true);
                 const response = await axios.post('/login', {

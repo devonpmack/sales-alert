@@ -68,6 +68,7 @@ export default function Profile(props) {
           >
             <Card.Section>
               <WinkEditor
+                setCreateMode={setCreateMode}
                 loading={loading}
                 items={items}
                 onClick={onWinkClick}

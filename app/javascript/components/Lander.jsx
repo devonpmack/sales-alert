@@ -22,6 +22,7 @@ import {ArrowLeftMinor} from '@shopify/polaris-icons';
 import LoginModal from './LoginModal';
 import Welcome from './Welcome';
 import Profile from './Profile';
+import Settings from './Settings';
 
 export default function Lander(props) {
   const theme = {
@@ -42,10 +43,6 @@ export default function Lander(props) {
   const [loginOpen, setLoginOpen] = useState(false);
   const [registerMode, setRegisterMode] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-  const {currentUser: savedUser} = props;
-  if (savedUser && !currentUser) {
-    setCurrentUser(savedUser);
-  }
 
   const cookie = Cookies.get('user');
   if (!currentUser && cookie) {
@@ -82,12 +79,24 @@ export default function Lander(props) {
           items: [
             {
               content: 'My Profile',
-              onAction: () => (window.location.href = '/#/profile'),
+              onAction: () => {
+                window.location.href = '/#/profile';
+              },
             },
           ],
         },
+        // {
+        //   items: [{content: 'Get Premium'}],
+        // },
         {
-          items: [{content: 'Get Premium'}],
+          items: [
+            {
+              content: 'Settings',
+              onAction: () => {
+                window.location.href = '/#/settings';
+              },
+            },
+          ],
         },
         {
           items: [
@@ -132,6 +141,16 @@ export default function Lander(props) {
             <Route
               path="/profile"
               render={(rprops) => <Profile {...rprops} user={currentUser} />}
+            />
+            <Route
+              path="/settings"
+              render={(rprops) => (
+                <Settings
+                  {...rprops}
+                  email={currentUser.email}
+                  id={currentUser.id}
+                />
+              )}
             />
           </Frame>
         </AppProvider>

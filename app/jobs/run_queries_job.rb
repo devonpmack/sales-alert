@@ -8,7 +8,11 @@ class RunQueriesJob < ApplicationJob
     # Do something later
     user.tracked_items.each do |item|
       logger.info item.url
-      doc = Nokogiri::HTML(open(item.url, {"User-Agent"=> 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36'}))
+      response = open(item.url, {"User-Agent"=> 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36'})
+      if (!response) {
+        next
+      }
+      doc = Nokogiri::HTML(response)
 
       price_block = doc.at_css("span#priceblock_ourprice")
       unless price_block

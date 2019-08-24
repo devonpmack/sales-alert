@@ -4,7 +4,14 @@ import {Redirect} from 'react-router-dom';
 import WinkViewer from './WinkViewer';
 
 export default function WinkEditor(props) {
-  const {items, onClick, loading, setViewingWink, viewingWink} = props;
+  const {
+    items,
+    onClick,
+    loading,
+    setViewingWink,
+    viewingWink,
+    setCreateMode,
+  } = props;
 
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -12,6 +19,10 @@ export default function WinkEditor(props) {
     <ResourceList.FilterControl
       searchValue={searchQuery}
       onSearchChange={(value) => setSearchQuery(value)}
+      additionalAction={{
+        content: 'Add Wink',
+        onAction: () => setCreateMode(true),
+      }}
     />
   );
 
@@ -56,7 +67,10 @@ export default function WinkEditor(props) {
             <h3>
               <TextStyle variation="strong">{name}</TextStyle>
             </h3>
-            <div>{`Wink Price: $${threshold}`}</div>
+            <div>
+              {`Wink Price: $${threshold} | Current Price: $${item.queries
+                .length > 0 && item.queries[item.queries.length - 1].price}`}
+            </div>
           </ResourceList.Item>
         );
       }}
