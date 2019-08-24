@@ -56,7 +56,7 @@ export default function Settings(props) {
               },
               password(input) {
                 if (input.length < 1) {
-                  return 'Invalid Password';
+                  return 'Invalid password';
                 }
               },
             }}
