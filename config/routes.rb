@@ -2,8 +2,7 @@ Rails.application.routes.draw do
   resources :price_queries
   resources :tracked_items
 
-  devise_for :users
-
+  devise_for :users, :controllers => {sessions: 'sessions', registrations: 'registrations'}
   get 'profile', to: 'profile#index'
   root 'home#index'
 
