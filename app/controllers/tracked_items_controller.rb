@@ -1,5 +1,5 @@
 class TrackedItemsController < ApplicationController
-  before_action :set_tracked_item, only: [:show, :edit, :update, :destroy]
+  before_action :set_tracked_item, only: [:show, :update, :destroy]
 
   # GET /tracked_items
   # GET /tracked_items.json
@@ -15,10 +15,6 @@ class TrackedItemsController < ApplicationController
   # GET /tracked_items/new
   def new
     @tracked_item = TrackedItem.new
-  end
-
-  # GET /tracked_items/1/edit
-  def edit
   end
 
   # POST /tracked_items

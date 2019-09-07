@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
-  resources :price_queries
-  resources :tracked_items
-  resources :users
+  resources :tracked_items, only: [:show, :create, :update, :destroy]
+  resources :users, only: [:show, :create, :update]
   get 'profile', to: 'profile#index'
   root 'home#index'
 
