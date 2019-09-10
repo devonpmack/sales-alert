@@ -122,6 +122,7 @@ GEM
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
+    rack-timeout (0.5.1)
     rails (6.0.0.rc1)
       actioncable (= 6.0.0.rc1)
       actionmailbox (= 6.0.0.rc1)
@@ -227,6 +228,7 @@ DEPENDENCIES
   monetize
   pg
   puma (~> 3.11)
+  rack-timeout
   rails (~> 6.0.0.rc1)
   react-rails
   sass-rails (~> 5)
