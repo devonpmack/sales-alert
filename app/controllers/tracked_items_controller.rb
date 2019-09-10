@@ -29,10 +29,8 @@ class TrackedItemsController < ApplicationController
 
     respond_to do |format|
       if @tracked_item.save
-        format.html { redirect_to @tracked_item, notice: 'Tracked item was successfully created.' }
         format.json { render :show, status: :created, location: @tracked_item }
       else
-        format.html { render :new }
         format.json { render json: @tracked_item.errors, status: :unprocessable_entity }
       end
     end
