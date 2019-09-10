@@ -13,7 +13,6 @@ class RunQueriesJob < ApplicationJob
         next
       end
       doc = Nokogiri::HTML(response)
-      byebug
       price_block = doc.at_css("span#priceblock_ourprice")
       unless price_block
         price_block = doc.at_css("span#priceblock_dealprice")
