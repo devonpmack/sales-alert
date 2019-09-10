@@ -48,6 +48,7 @@ export default function Lander(props) {
   const [loading, setLoading] = useState(false);
 
   async function getUser(id) {
+    if (!loading) setLoading(true);
     const response = await axios.get(`/users/${id}.json`);
     // if (!loading) {
       //todo fix this error
@@ -159,7 +160,7 @@ export default function Lander(props) {
             <Route
               path="/profile"
               render={(rprops) => (
-                <Profile {...rprops} loading={loading} user={currentUser} />
+                <Profile {...rprops} loading={loading} refresh={getUser} user={currentUser} />
               )}
             />
             <Route

@@ -1,5 +1,4 @@
-import React, {useState, Route} from 'react';
-import axios from 'axios-on-rails';
+import React, {useState, useEffect, Route} from 'react';
 import {Redirect} from 'react-router-dom';
 import {MobileChevronMajorMonotone} from '@shopify/polaris-icons';
 import {
@@ -16,7 +15,7 @@ import WinkEditor from './WinkEditor';
 import WinkFormModal from './WinkFormModal';
 
 export default function Profile(props) {
-  const {user, loading} = props;
+  const {user, loading, refresh} = props;
 
   const [stale, setStale] = useState(false);
   const [itemOpen, setItemOpen] = useState(null);
@@ -117,6 +116,7 @@ export default function Profile(props) {
             onSubmit={() => {
               setItemOpen(false);
               setCreateMode(false);
+              refresh(user.id);
               setStale(!stale);
             }}
           />
