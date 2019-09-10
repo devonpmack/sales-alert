@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2019_07_10_015910) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "price_queries", force: :cascade do |t|
     t.float "price"
     t.datetime "created_at", precision: 6, null: false
