@@ -1,5 +1,6 @@
 class TrackedItemsController < ApplicationController
   before_action :set_tracked_item, only: [:show, :update, :destroy]
+  # belongs_to :user
 
   # GET /tracked_items
   # GET /tracked_items.json
@@ -10,6 +11,9 @@ class TrackedItemsController < ApplicationController
   # GET /tracked_items/1
   # GET /tracked_items/1.json
   def show
+    # respond_to do |format|
+    #   format.json { render json: @tracked_item }
+    # end
   end
 
   # GET /tracked_items/new
@@ -21,6 +25,7 @@ class TrackedItemsController < ApplicationController
   # POST /tracked_items.json
   def create
     @tracked_item = TrackedItem.new(tracked_item_params)
+    # byebug
 
     respond_to do |format|
       if @tracked_item.save
