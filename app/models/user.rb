@@ -3,4 +3,8 @@ class User < ApplicationRecord
     has_secure_password
     validates :email, presence: true
     validates :email, uniqueness: { case_sensitive: false}
+
+    def run_queries
+      RunQueriesJob.perform_now(self)
+    end
 end
