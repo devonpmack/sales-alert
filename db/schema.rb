@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_11_012452) do
+ActiveRecord::Schema.define(version: 2019_09_11_021324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,8 @@ ActiveRecord::Schema.define(version: 2019_09_11_012452) do
 
   create_table "proxy_urls", force: :cascade do |t|
     t.string "ip"
+    t.integer "num_success", default: 0
+    t.integer "num_failures", default: 0
   end
 
   create_table "tracked_items", force: :cascade do |t|

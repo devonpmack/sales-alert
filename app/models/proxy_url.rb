@@ -11,6 +11,10 @@ class ProxyUrl < ApplicationRecord
     proxy = proxies[@index]
     @index += 1
 
-    URI.parse("http://#{proxy.ip}")
+    proxy
+  end
+
+  def uri
+    URI.parse("http://#{ip}")
   end
 end

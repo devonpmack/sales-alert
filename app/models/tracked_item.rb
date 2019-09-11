@@ -58,10 +58,19 @@ class TrackedItem < ApplicationRecord
       until resp or attempts >= 2
         logger.info("Attempting to query #{url}")
         attempts += 1
+        proxy = ProxyUrl.get_proxy
+        fail = false
         begin
-          resp = open(url, open_timeout: 15, proxy: ProxyUrl.get_proxy, 'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36')
+          resp = open(url, open_timeout: 15, proxy: proxy.uri, 'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36')
         rescue Timeout::Error
           logger.debug "Timed out."
+          fail = true
+        end
+
+        if fail or !resp
+          proxy.increment!(:num_failures)
+        else
+          proxy.increment!(:num_success)
         end
       end
 
