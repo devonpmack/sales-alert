@@ -6,12 +6,12 @@ class ProxyUrlTest < ActiveSupport::TestCase
   # end
 
   test "can get all proxies" do
-    assert_equal ProxyUrl.get_proxy, proxy_urls(:one)
-    assert_equal ProxyUrl.get_proxy, proxy_urls(:two)
-    assert_equal ProxyUrl.get_proxy, proxy_urls(:three)
-    assert_equal ProxyUrl.get_proxy, proxy_urls(:one)
-    assert_equal ProxyUrl.get_proxy, proxy_urls(:two)
-    assert_equal ProxyUrl.get_proxy, proxy_urls(:three)
-    assert_equal ProxyUrl.get_proxy, proxy_urls(:one)
+    assert_equal ProxyUrl.get_proxy, URI.parse("http://#{proxy_urls(:one).ip}")
+    assert_equal ProxyUrl.get_proxy, URI.parse("http://#{proxy_urls(:two).ip}")
+    assert_equal ProxyUrl.get_proxy, URI.parse("http://#{proxy_urls(:three).ip}")
+    assert_equal ProxyUrl.get_proxy, URI.parse("http://#{proxy_urls(:one).ip}")
+    assert_equal ProxyUrl.get_proxy, URI.parse("http://#{proxy_urls(:two).ip}")
+    assert_equal ProxyUrl.get_proxy, URI.parse("http://#{proxy_urls(:three).ip}")
+    assert_equal ProxyUrl.get_proxy, URI.parse("http://#{proxy_urls(:one).ip}")
   end
 end

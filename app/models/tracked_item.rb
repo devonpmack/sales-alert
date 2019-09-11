@@ -22,7 +22,7 @@ class TrackedItem < ApplicationRecord
     end
 
     def query
-      response = open(url, proxy: ProxyUrl.get_proxy,'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36')
+      response = scrape
       unless response
         return
       end
@@ -48,5 +48,18 @@ class TrackedItem < ApplicationRecord
       end
 
       price_dollars
+    end
+
+    private
+
+    def scrape
+      resp = nil
+      attempts = 0
+      until resp or attempts >= 2
+        attempts += 1
+        resp = open(url, read_timeout: 15, proxy: ProxyUrl.get_proxy, 'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36')
+      end
+
+      resp
     end
 end

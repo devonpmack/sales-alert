@@ -1,10 +1,10 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  ip: 1
+  ip: '35.192.7.115:8080'
 
 two:
-  ip: 2
+  ip: '35.247.189.6:8080'
 
 three:
-  ip: 3
+  ip: '76.87.101.188:38875'
