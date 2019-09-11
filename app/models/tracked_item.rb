@@ -56,10 +56,12 @@ class TrackedItem < ApplicationRecord
       resp = nil
       attempts = 0
       until resp or attempts >= 2
+        logger.info("Attempting to query #{url}")
         attempts += 1
         resp = open(url, read_timeout: 15, proxy: ProxyUrl.get_proxy, 'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36')
       end
 
+      logger.info("Success") if resp
       resp
     end
 end
