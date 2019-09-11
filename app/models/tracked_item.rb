@@ -8,15 +8,6 @@ class TrackedItem < ApplicationRecord
       "span#priceblock_dealprice"
     ]
 
-    AVAILABLE_PROXIES = [
-      '173.46.67.172:58517',
-      '24.172.82.94:53281',
-      '35.192.7.115:8080',
-      '35.247.189.6:8080',
-      '68.251.250.193:8080',
-      '76.87.101.188:38875'
-    ]
-
     def check_threshold(price)
         if price < threshold
             logger.info("EMAIL TO " + user.email)
@@ -31,7 +22,7 @@ class TrackedItem < ApplicationRecord
     end
 
     def query
-      response = open(url, proxy: URI.parse(PROXY),'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36')
+      response = open(url, proxy: ProxyUrl.get_proxy,'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36')
       unless response
         return
       end

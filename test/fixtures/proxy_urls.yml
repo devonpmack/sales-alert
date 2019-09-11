@@ -1,0 +1,10 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ip: 1
+
+two:
+  ip: 2
+
+three:
+  ip: 3

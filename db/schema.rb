@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_10_015910) do
+ActiveRecord::Schema.define(version: 2019_09_11_012452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,10 @@ ActiveRecord::Schema.define(version: 2019_07_10_015910) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "tracked_item_id"
     t.index ["tracked_item_id"], name: "index_price_queries_on_tracked_item_id"
+  end
+
+  create_table "proxy_urls", force: :cascade do |t|
+    t.string "ip"
   end
 
   create_table "tracked_items", force: :cascade do |t|
