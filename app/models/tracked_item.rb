@@ -31,7 +31,7 @@ class TrackedItem < ApplicationRecord
       price_block = nil
       POSSIBLE_IDS.each do |id|
         price_block = doc.at_css(id)
-        return if price_block
+        break if price_block
       end
 
       unless price_block
@@ -45,6 +45,12 @@ class TrackedItem < ApplicationRecord
         price_dollars = price_block.children.first.text.sub("CDN", "CAD").to_money.dollars.to_f
       rescue Monetize::ParseError
         logger.error "Couldn't parse " + price_block.children.first.text + "!"
+      end
+
+      unless price_dollars
+        logger.error "Failed to find price of #{url}"
+        IO.write("#{Rails.root}/test.html", response.open.read);
+        response.close
       end
 
       price_dollars
@@ -62,7 +68,7 @@ class TrackedItem < ApplicationRecord
         fail = false
         begin
           resp = open(url, open_timeout: 15, proxy: proxy.uri, 'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36')
-        rescue Timeout::Error
+        rescue Timeout::Error, EOFError, Errno::ECONNRESET
           logger.debug "Timed out."
           fail = true
         end
@@ -74,7 +80,6 @@ class TrackedItem < ApplicationRecord
         end
       end
 
-      logger.info("Success") if resp
       resp
     end
 end

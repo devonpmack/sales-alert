@@ -14,6 +14,9 @@ class RunQueriesJob < ApplicationJob
       if price_dollars
         logger.info price_dollars
         PriceQuery.create!(tracked_item_id: item.id, price: price_dollars);
+        logger.info("Success")
+      else
+        logger.info("Could not find price")
       end
     end
   end
