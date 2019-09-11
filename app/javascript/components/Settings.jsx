@@ -31,8 +31,8 @@ export default function Settings(props) {
           <FormState
             validateOnSubmit
             initialValues={{
-              email,
-              emailConfirmation: email,
+              email: '',
+              emailConfirmation: '',
               password: '',
             }}
             validators={{
