@@ -49,13 +49,16 @@ export default function Lander(props) {
 
   async function getUser(id) {
     if (!loading) setLoading(true);
-    const response = await axios.get(`/users/${id}.json`);
-    // if (!loading) {
-      //todo fix this error
-      // return;
-    // }
-    setCurrentUser(response.data);
-    setLoading(false);
+    try {
+      const response = await axios.get(`/users/${id}.json`);
+
+      setCurrentUser(response.data);
+      setLoading(false);
+    } catch (error) {
+      setCurrentUser(null);
+      setLoading(false);
+      Cookies.remove('authToken');
+    }
   }
 
   useEffect(() => {
@@ -66,7 +69,7 @@ export default function Lander(props) {
     } else {
       setCurrentUser(null);
     }
-  }, []);
+  }, [getUser]);
 
   const toggleUserMenu = () => {
     setUserMenuOpen(!userMenuOpen);
@@ -160,7 +163,12 @@ export default function Lander(props) {
             <Route
               path="/profile"
               render={(rprops) => (
-                <Profile {...rprops} loading={loading} refresh={getUser} user={currentUser} />
+                <Profile
+                  {...rprops}
+                  loading={loading}
+                  refresh={getUser}
+                  user={currentUser}
+                />
               )}
             />
             <Route
