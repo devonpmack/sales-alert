@@ -69,7 +69,7 @@ export default function Lander(props) {
     } else {
       setCurrentUser(null);
     }
-  }, [getUser]);
+  }, []);
 
   const toggleUserMenu = () => {
     setUserMenuOpen(!userMenuOpen);
@@ -163,12 +163,7 @@ export default function Lander(props) {
             <Route
               path="/profile"
               render={(rprops) => (
-                <Profile
-                  {...rprops}
-                  loading={loading}
-                  refresh={getUser}
-                  user={currentUser}
-                />
+                <Profile {...rprops} loading={loading} refresh={getUser} user={currentUser} />
               )}
             />
             <Route
