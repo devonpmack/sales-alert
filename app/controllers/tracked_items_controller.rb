@@ -1,5 +1,5 @@
 class TrackedItemsController < ApplicationController
-  before_action :set_tracked_item, only: [:show, :update, :destroy]
+  before_action :set_tracked_item, only: [:show, :update, :destroy, :query]
   # belongs_to :user
 
   # GET /tracked_items
@@ -14,6 +14,13 @@ class TrackedItemsController < ApplicationController
     # respond_to do |format|
     #   format.json { render json: @tracked_item }
     # end
+  end
+
+  def query
+    respond_to do |format|
+      @tracked_item.query
+      format.json { render json: { success: true} }
+    end
   end
 
   # GET /tracked_items/new

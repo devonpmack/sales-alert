@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :tracked_items, only: [:show, :create, :update, :destroy]
+  resources :tracked_items, only: [:show, :create, :update, :destroy, :query]
   resources :users, only: [:show, :create, :update]
   resources :proxy_urls
   root 'home#index'
