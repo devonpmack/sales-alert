@@ -68,8 +68,8 @@ class TrackedItem < ApplicationRecord
         fail = false
         begin
           resp = open(url, open_timeout: 15, proxy: proxy.uri, 'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36')
-        rescue Timeout::Error, EOFError, Errno::ECONNRESET
-          logger.debug "Timed out."
+        rescue Timeout::Error, EOFError, Errno::ECONNRESET, OpenURI::HTTPError
+          logger.debug "Error"
           fail = true
         end
 

@@ -68,8 +68,10 @@ export default function WinkEditor(props) {
               <TextStyle variation="strong">{name}</TextStyle>
             </h3>
             <div>
-              {`Wink Price: $${threshold} | Current Price: $${item.queries
-                .length > 0 && item.queries[item.queries.length - 1].price}`}
+              {`Wink Price: $${threshold} | Current Price: $${(item.queries
+                .length > 0 &&
+                item.queries[item.queries.length - 1].price) ||
+                'Unknown'}`}
             </div>
           </ResourceList.Item>
         );

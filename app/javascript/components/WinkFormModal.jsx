@@ -39,6 +39,15 @@ export default function WinkFormModal(props) {
     onSubmit();
   };
 
+  function removeRef(url) {
+    const {value} = url;
+    const index = value.indexOf('ref');
+
+    if (index !== -1) {
+      url.onChange(value.slice(0, index));
+    }
+  }
+
   return (
     <FormState
       validateOnSubmit
@@ -107,7 +116,7 @@ export default function WinkFormModal(props) {
                 <FormLayout>
                   <TextField label="Name" {...name} />
                   <TextField label="Threshold" {...threshold} type="number" />
-                  <TextField label="URL" {...url} />
+                  <TextField label="URL" {...url} onBlur={() => removeRef(url)}/>
                   <Stack distribution="trailing">
                     {!createMode && (
                       <Stack.Item fill>
