@@ -67,6 +67,8 @@ export default function Lander() {
     <LoginModal
       onClose={toggleLoginOpen}
       setRegisterMode={setRegisterMode}
+      open={loginOpen && !currentUser}
+      registerMode={registerMode}
       loggedIn={Boolean(currentUser)}
       onLoggedIn={(user) => {
         getUser(user.id);
