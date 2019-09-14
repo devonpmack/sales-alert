@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Modal, TextField, Banner} from '@shopify/polaris';
+import {Modal, TextField, Banner, EventListener} from '@shopify/polaris';
 import FormState from '@shopify/react-form-state';
 import axios from 'axios-on-rails';
 import {Redirect} from 'react-router-dom';
@@ -99,6 +99,7 @@ export default function LoginModal(props) {
         const {
           fields: {email, password},
           dirty,
+          submit,
         } = formDetails;
 
         return (
@@ -110,6 +111,7 @@ export default function LoginModal(props) {
               disabled: !dirty,
               content: 'Log in',
               onAction: async () => {
+                console.log('log');
                 setLoading(true);
                 const response = await axios.post('/login', {
                   login: {email: email.value, password: password.value},
@@ -135,6 +137,11 @@ export default function LoginModal(props) {
             onClose={props.onClose}
           >
             {error && <Banner status="critical">{error}</Banner>}
+            <EventListener
+              capture
+              event="keydown"
+              handler={(event) => event.key === 'Enter' && submit()}
+            />
             <Modal.Section>
               <form>
                 <TextField {...email} label="Email" type="email" />
