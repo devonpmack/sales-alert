@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react';
-import {HashRouter, Route, Redirect} from 'react-router-dom';
+import {BrowserRouter, Route, Redirect} from 'react-router-dom';
 import axios from 'axios-on-rails';
 import Cookies from 'js-cookie';
 import {AppProvider, TopBar, Frame} from '@shopify/polaris';
@@ -131,7 +131,7 @@ export default function Lander() {
 
   return (
     <div style={{height: '250px'}}>
-      <HashRouter>
+      <BrowserRouter>
         <AppProvider theme={theme}>
           <Frame topBar={topBarMarkup}>
             {(currentUser || loading) &&
@@ -169,7 +169,7 @@ export default function Lander() {
             />
           </Frame>
         </AppProvider>
-      </HashRouter>
+      </BrowserRouter>
     </div>
   );
 }
