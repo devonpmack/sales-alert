@@ -134,7 +134,10 @@ export default function Lander() {
       <HashRouter>
         <AppProvider theme={theme}>
           <Frame topBar={topBarMarkup}>
-            {currentUser || loading ? <Redirect to="/profile" /> : null}
+            {(currentUser || loading) &&
+            window.location.href.endsWith('/#/') ? (
+              <Redirect to="/profile" />
+            ) : null}
             {loginModalMarkup}
             <Route
               path="/"
@@ -159,8 +162,8 @@ export default function Lander() {
               render={(rprops) => (
                 <Settings
                   {...rprops}
-                  email={currentUser.email}
-                  id={currentUser.id}
+                  email={currentUser && currentUser.email}
+                  id={currentUser && currentUser.id}
                 />
               )}
             />

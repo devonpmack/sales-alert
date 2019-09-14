@@ -201,6 +201,11 @@ export default function Settings(props) {
                         </Banner>
                       )}
                       <TextField
+                        {...oldPassword}
+                        type="password"
+                        label="Password"
+                      />
+                      <TextField
                         {...newPassword}
                         label="New Password"
                         type="password"
@@ -209,11 +214,6 @@ export default function Settings(props) {
                         {...newPasswordConfirmation}
                         label="Confirm New Password"
                         type="password"
-                      />
-                      <TextField
-                        {...oldPassword}
-                        type="password"
-                        label="Old Password"
                       />
                       <Stack distribution="trailing">
                         <Button

@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import {Modal, TextField, Banner, EventListener} from '@shopify/polaris';
+import {EventListener, Modal, TextField, Banner} from '@shopify/polaris';
 import FormState from '@shopify/react-form-state';
 import axios from 'axios-on-rails';
-import {Redirect} from 'react-router-dom';
 
 export default function LoginModal(props) {
   const {loggedIn, registerMode, setRegisterMode, onLoggedIn} = props;
@@ -12,6 +11,48 @@ export default function LoginModal(props) {
   useEffect(() => setError(null), [registerMode]);
 
   if (loggedIn) return null;
+
+  const login = async (email, password) => {
+    setLoading(true);
+    const response = await axios.post('/login', {
+      login: {email: email.value, password: password.value},
+    });
+    if (response.data.success) {
+      onLoggedIn(response.data);
+    } else {
+      setError('Invalid email or password.');
+    }
+    setLoading(false);
+  };
+
+  const register = async (email, password, passwordConfirmation) => {
+    setLoading(true);
+    const response = await axios.post('/users.json', {
+      user: {
+        email: email.value,
+        password: password.value,
+        password_confirmation: passwordConfirmation.value,
+      },
+    });
+    if (response.data.success) {
+      onLoggedIn(response.data);
+    } else {
+      setError(response.data.error);
+    }
+    setLoading(false);
+  };
+
+  const handleKeydown = (email, password = '', passwordConfirmation = '') => (
+    event,
+  ) => {
+    if (event.key !== 'Enter') return;
+    event.stopPropagation();
+    if (registerMode) {
+      register(email, password, passwordConfirmation);
+    } else {
+      login(email, password);
+    }
+  };
 
   const formMarkup = registerMode ? (
     <FormState
@@ -29,9 +70,9 @@ export default function LoginModal(props) {
         },
         password(input) {
           if (input.length < 5) {
-            return 'Password is too short';
+            return 'Password must be at least 5 characters long';
           } else if (input.length > 30) {
-            return 'Password is too long';
+            return 'Password must be less than 30 characters long';
           }
         },
       }}
@@ -50,22 +91,7 @@ export default function LoginModal(props) {
             primaryAction={{
               content: 'Register',
               disabled: !dirty,
-              onAction: async () => {
-                setLoading(true);
-                const response = await axios.post('/users.json', {
-                  user: {
-                    email: email.value,
-                    password: password.value,
-                    password_confirmation: passwordConfirmation.value,
-                  },
-                });
-                if (response.data.success) {
-                  onLoggedIn(response.data);
-                } else {
-                  setError(response.data.error);
-                }
-                setLoading(false);
-              },
+              onAction: () => register(email, password, passwordConfirmation),
             }}
             secondaryActions={[
               {
@@ -77,6 +103,11 @@ export default function LoginModal(props) {
             ]}
             onClose={props.onClose}
           >
+            <EventListener
+              capture
+              event="keydown"
+              handler={handleKeydown(email, password)}
+            />
             {error && <Banner status="critical">{error}</Banner>}
             <Modal.Section>
               <form>
@@ -101,7 +132,6 @@ export default function LoginModal(props) {
           dirty,
           submit,
         } = formDetails;
-
         return (
           <Modal
             title="Log in"
@@ -110,19 +140,7 @@ export default function LoginModal(props) {
             primaryAction={{
               disabled: !dirty,
               content: 'Log in',
-              onAction: async () => {
-                console.log('log');
-                setLoading(true);
-                const response = await axios.post('/login', {
-                  login: {email: email.value, password: password.value},
-                });
-                if (response.data.success) {
-                  onLoggedIn(response.data);
-                } else {
-                  setError('Invalid email or password.');
-                }
-                setLoading(false);
-              },
+              onAction: () => login(email, password),
             }}
             secondaryActions={[
               {
@@ -136,6 +154,11 @@ export default function LoginModal(props) {
             ]}
             onClose={props.onClose}
           >
+            <EventListener
+              capture
+              event="keydown"
+              handler={handleKeydown(email, password)}
+            />
             {error && <Banner status="critical">{error}</Banner>}
             <EventListener
               capture
@@ -143,7 +166,7 @@ export default function LoginModal(props) {
               handler={(event) => event.key === 'Enter' && submit()}
             />
             <Modal.Section>
-              <form>
+              <form onSubmit={submit}>
                 <TextField {...email} label="Email" type="email" />
                 <TextField {...password} label="Password" type="password" />
               </form>
@@ -154,5 +177,5 @@ export default function LoginModal(props) {
     </FormState>
   );
 
-  return formMarkup;
+  return <div>{formMarkup}</div>;
 }
