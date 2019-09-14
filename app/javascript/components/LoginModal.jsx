@@ -97,7 +97,8 @@ export default function LoginModal(props) {
     <FormState initialValues={{email: '', password: ''}}>
       {(formDetails) => {
         const {
-          fields: {email, password}, dirty,
+          fields: {email, password},
+          dirty,
         } = formDetails;
 
         return (
