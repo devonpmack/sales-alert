@@ -134,8 +134,7 @@ export default function Lander() {
       <BrowserRouter>
         <AppProvider theme={theme}>
           <Frame topBar={topBarMarkup}>
-            {(currentUser || loading) &&
-            window.location.href.endsWith('/#/') ? (
+            {(currentUser || loading) && window.location.href.endsWith('/') ? (
               <Redirect to="/profile" />
             ) : null}
             {loginModalMarkup}
