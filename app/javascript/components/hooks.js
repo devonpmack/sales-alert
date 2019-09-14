@@ -1,17 +1,23 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios-on-rails';
 
-function useFetch(url, shouldUpdate) {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  async function fetchUrl() {
-    const response = await axios.get(url);
-    setData(response.data);
-    setLoading(false);
-  }
+export function useFetch(url) {
+  const [data, setData] = useState(null);
   useEffect(() => {
-    fetchUrl();
-  }, [shouldUpdate]);
-  return [data, loading];
+    let mounted = true;
+    const abortController = new AbortController();
+    (async () => {
+      const res = await fetch(url, {
+        signal: abortController.signal,
+      });
+      const data = await res.json();
+      if (mounted) setData(data);
+    })();
+    const cleanup = () => {
+      mounted = false;
+      abortController.abort();
+    };
+    return cleanup;
+  }, [url]);
+  return data;
 }
-export {useFetch};

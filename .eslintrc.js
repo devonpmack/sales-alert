@@ -13,12 +13,19 @@ module.exports = {
     'plugin:shopify/polaris',
     'plugin:shopify/webpack',
     'plugin:shopify/jest',
+    'plugin:shopify/node',
   ],
   settings: {
     react: {
       version: 'detect',
     },
     'import/external-module-folders': ['node_modules', 'packages'],
+    'import/resolver': {
+      node: {
+        paths: ['src'],
+        extensions: ['.js', '.jsx'],
+      },
+    },
   },
   rules: {
     // These rules have too many false positives and will be remove

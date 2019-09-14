@@ -66,8 +66,6 @@ export default function Lander() {
   const loginModalMarkup = (
     <LoginModal
       onClose={toggleLoginOpen}
-      open={loginOpen && !currentUser}
-      registerMode={registerMode}
       setRegisterMode={setRegisterMode}
       loggedIn={Boolean(currentUser)}
       onLoggedIn={(user) => {
