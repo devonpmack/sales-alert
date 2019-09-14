@@ -1,32 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react';
 import {HashRouter, Route, Redirect} from 'react-router-dom';
 import axios from 'axios-on-rails';
 import Cookies from 'js-cookie';
-import {
-  AppProvider,
-  CalloutCard,
-  Button,
-  Modal,
-  Card,
-  TextContainer,
-  TextField,
-  TopBar,
-  Page,
-  Stack,
-  Spinner,
-  ContextualSaveBar,
-  SettingToggle,
-  Layout,
-  Frame,
-  TextStyle,
-} from '@shopify/polaris';
-import {ArrowLeftMinor} from '@shopify/polaris-icons';
+import {AppProvider, TopBar, Frame} from '@shopify/polaris';
 import LoginModal from './LoginModal';
 import Welcome from './Welcome';
 import Profile from './Profile';
 import Settings from './Settings';
 
-export default function Lander(props) {
+export default function Lander() {
   const theme = {
     colors: {
       topBar: {
@@ -163,7 +146,12 @@ export default function Lander(props) {
             <Route
               path="/profile"
               render={(rprops) => (
-                <Profile {...rprops} loading={loading} refresh={getUser} user={currentUser} />
+                <Profile
+                  {...rprops}
+                  loading={loading}
+                  refresh={getUser}
+                  user={currentUser}
+                />
               )}
             />
             <Route
