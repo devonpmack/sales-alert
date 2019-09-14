@@ -27,8 +27,8 @@ export default function Lander() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [registerMode, setRegisterMode] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [currentUser, setCurrentUser] = useState(undefined);
+  const [loading, setLoading] = useState(null);
 
   async function getUser(id) {
     if (!loading) setLoading(true);
@@ -134,9 +134,10 @@ export default function Lander() {
       <BrowserRouter>
         <AppProvider theme={theme}>
           <Frame topBar={topBarMarkup}>
-            {(currentUser || loading) && window.location.href.endsWith('/') ? (
+            {window.location.pathname === '/' && (currentUser || loading) ? (
               <Redirect to="/profile" />
             ) : null}
+            {currentUser === null ? <Redirect to="/" /> : null}
             {loginModalMarkup}
             <Route
               path="/"
@@ -161,6 +162,7 @@ export default function Lander() {
               render={(rprops) => (
                 <Settings
                   {...rprops}
+                  loading={loading}
                   email={currentUser && currentUser.email}
                   id={currentUser && currentUser.id}
                 />

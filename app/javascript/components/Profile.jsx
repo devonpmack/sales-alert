@@ -15,14 +15,14 @@ import WinkEditor from './WinkEditor';
 import WinkFormModal from './WinkFormModal';
 
 export default function Profile(props) {
-  const {user, loading, refresh} = props;
+  const {user, loading, refresh, kickout} = props;
 
   const [stale, setStale] = useState(false);
   const [itemOpen, setItemOpen] = useState(null);
   const [createMode, setCreateMode] = useState(false);
   const [viewingWink, setViewingWink] = useState(null);
 
-  if (loading || loading === undefined) {
+  if (loading || loading === null) {
     return (
       <SkeletonPage title="This is your profile">
         <Layout>
@@ -48,7 +48,7 @@ export default function Profile(props) {
     );
   }
 
-  if (!user) {
+  if (kickout || (!user && loading === false)) {
     return <Redirect to="/" />;
   }
 

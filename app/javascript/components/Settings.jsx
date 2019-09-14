@@ -11,9 +11,10 @@ import {
 } from '@shopify/polaris';
 import FormState from '@shopify/react-form-state';
 import axios from 'axios-on-rails';
+import {Redirect} from 'react-router';
 
 export default function Settings(props) {
-  const {id, email} = props;
+  const {id, email, loading} = props;
 
   function passwordValidator(input) {
     if (input.length < 3) {
@@ -23,6 +24,10 @@ export default function Settings(props) {
 
   const [emailBanner, setEmailBanner] = useState(null);
   const [passwordBanner, setPasswordBanner] = useState(null);
+
+  if (!email && loading === false) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <Page title="Settings">
