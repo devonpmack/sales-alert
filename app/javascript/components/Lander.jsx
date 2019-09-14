@@ -19,7 +19,7 @@ export default function Lander() {
     logo: {
       width: 124,
       topBarSource: 'https://i.imgur.com/eJHZaPA.png',
-      onAction: () => (window.location.href = '/#/'),
+      onAction: () => (window.location.href = '/'),
       accessibilityLabel: 'Sales Wink',
       contextualSaveBarSource: 'https://i.imgur.com/eJHZaPA.png',
     },
@@ -85,7 +85,7 @@ export default function Lander() {
             {
               content: 'My Profile',
               onAction: () => {
-                window.location.href = '/#/profile';
+                window.location.href = '/profile';
               },
             },
           ],
@@ -98,7 +98,7 @@ export default function Lander() {
             {
               content: 'Settings',
               onAction: () => {
-                window.location.href = '/#/settings';
+                window.location.href = '/settings';
               },
             },
           ],
