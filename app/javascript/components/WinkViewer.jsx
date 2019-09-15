@@ -95,7 +95,7 @@ export default function WinkViewer(props) {
         legends={[
           {
             anchor: 'bottom-right',
-            direction: 'column',
+            direction: 'row',
             justify: false,
             translateX: 0,
             translateY: 0,
