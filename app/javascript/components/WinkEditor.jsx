@@ -35,6 +35,13 @@ export default function WinkEditor(props) {
     return <WinkViewer wink={viewingWink} />;
   }
 
+  function lastPriceMarkup(item) {
+    return item.queries.length > 0 &&
+      item.queries[item.queries.length - 1].price
+      ? `| Current Price: $${item.queries[item.queries.length - 1].price}`
+      : '';
+  }
+
   return (
     <ResourceList
       loading={loading}
@@ -67,12 +74,9 @@ export default function WinkEditor(props) {
             <h3>
               <TextStyle variation="strong">{name}</TextStyle>
             </h3>
-            <div>
-              {`Wink Price: $${threshold} | Current Price: $${(item.queries
-                .length > 0 &&
-                item.queries[item.queries.length - 1].price) ||
-                'Unknown'}`}
-            </div>
+            <div>{`Notify when below $${threshold} ${lastPriceMarkup(
+              item,
+            )}`}</div>
           </ResourceList.Item>
         );
       }}
