@@ -19,7 +19,9 @@ import {
 export default function WinkFormModal(props) {
   const {wink, open, onClose, createMode, userId, onSubmit} = props;
 
-  const title = createMode ? 'Create Wink' : wink && `Edit ${wink.name}`;
+  const title = createMode
+    ? 'Track a New Product'
+    : wink && `Edit ${wink.name}`;
 
   const [deleting, setDeleting] = useState(false);
 
@@ -27,7 +29,7 @@ export default function WinkFormModal(props) {
   if (!formWink || createMode) {
     formWink = {
       name: '',
-      threshold: 0,
+      threshold: null,
       url: '',
     };
   }
@@ -114,9 +116,29 @@ export default function WinkFormModal(props) {
             <Modal.Section>
               <form onSubmit={submit}>
                 <FormLayout>
-                  <TextField label="Name" {...name} />
-                  <TextField label="Threshold" {...threshold} type="number" />
-                  <TextField label="URL" {...url} onBlur={() => removeRef(url)}/>
+                  <TextField
+                    label="Tracker Name"
+                    {...name}
+                    placeholder="Toothbrush"
+                  />
+                  <TextField
+                    prefix="$"
+                    placeholder="7.00"
+                    label="Notify me when product goes below"
+                    {...threshold}
+                    onBlur={() =>
+                      threshold.dirty &&
+                      threshold.onChange(Number(threshold.value).toFixed(2))
+                    }
+                    value={formatThreshold(threshold)}
+                    type="number"
+                  />
+                  <TextField
+                    label="Link to Amazon Product"
+                    placeholder="https://www.amazon.ca/Colgate-Total-Toothpaste-Clean-Mint/dp/B07KF6SV8N/"
+                    {...url}
+                    onBlur={() => removeRef(url)}
+                  />
                   <Stack distribution="trailing">
                     {!createMode && (
                       <Stack.Item fill>
@@ -149,4 +171,16 @@ export default function WinkFormModal(props) {
       }}
     </FormState>
   );
+}
+
+function formatThreshold(threshold) {
+  if (threshold.dirty) {
+    return threshold.value;
+  }
+
+  if (!threshold.value) {
+    return null;
+  }
+
+  return Number(threshold.value).toFixed(2);
 }

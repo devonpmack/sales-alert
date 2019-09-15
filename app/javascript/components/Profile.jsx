@@ -24,17 +24,17 @@ export default function Profile(props) {
 
   if (loading || loading === null) {
     return (
-      <SkeletonPage title="This is your profile">
+      <SkeletonPage title="Price Tracker">
         <Layout>
           <Layout.Section>
-            <Card title="Keep track of prices all across the web">
+            <Card title="Keep track of Amazon prices">
               <Card.Section>
                 <SkeletonBodyText lines={2} />
               </Card.Section>
             </Card>
           </Layout.Section>
           <Layout.Section>
-            <Card title="Your winks">
+            <Card title="Your Tracked Products">
               <Card.Section>
                 <SkeletonBodyText lines={2} />
               </Card.Section>
@@ -57,24 +57,21 @@ export default function Profile(props) {
   };
 
   return (
-    <Page title="This is your profile">
+    <Page title="Price Tracker">
       <Layout>
         <Layout.Section>
           <CalloutCard
-            title="Keep track of prices all across the web"
+            title="Keep track of Amazon prices"
             illustration="https://cdn.shopify.com/s/assets/admin/checkout/settings-customizecart-705f57c725ac05be5a34ec20c05b94298cb8afd10aac7bd9c7ad02030f48cfa0.svg"
             primaryAction={{
-              content: 'Add Wink',
+              content: 'Track a new Product',
               onClick: () => setCreateMode(true),
             }}
           >
-            <p>
-              Sales wink alerts you the moment a sale starts so you won't miss a
-              thing.
-            </p>
+            <p>Click below to start tracking a new Amazon product.</p>
           </CalloutCard>
           <Card
-            title={viewingWink ? viewingWink.name : 'Your Winks'}
+            title={viewingWink ? viewingWink.name : 'Your Tracked Products'}
             secondaryFooterActions={
               viewingWink && [
                 {

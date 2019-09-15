@@ -91,6 +91,32 @@ export default function WinkViewer(props) {
         //       ).toLocaleString()}`
         //     : 'Threshold: 4';
         // }}
+
+        legends={[
+          {
+            anchor: 'bottom-right',
+            direction: 'column',
+            justify: false,
+            translateX: 0,
+            translateY: 0,
+            itemWidth: 100,
+            itemHeight: 20,
+            itemsSpacing: 4,
+            symbolSize: 20,
+            symbolShape: 'circle',
+            itemDirection: 'left-to-right',
+            itemTextColor: '#777',
+            effects: [
+              {
+                on: 'hover',
+                style: {
+                  itemBackground: 'rgba(0, 0, 0, .03)',
+                  itemOpacity: 1,
+                },
+              },
+            ],
+          },
+        ]}
       />
     </div>
   );
