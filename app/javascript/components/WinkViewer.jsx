@@ -42,6 +42,8 @@ export default function WinkViewer(props) {
   return (
     <div style={{height: '30em'}}>
       <ResponsiveLine
+        enablePoints={false}
+        lineWidth={4}
         colors={{scheme: 'nivo'}}
         margin={{top: 20, right: 20, bottom: 60, left: 55}}
         enableSlices="x"
@@ -79,16 +81,16 @@ export default function WinkViewer(props) {
         pointSize={16}
         useMesh
         enableCrosshair={false}
-        sliceTooltip={(point) => {
-          const dt = point.slice.points.filter(
-            (pt) => pt.serieId === 'Price',
-          )[0];
-          return dt
-            ? `${formatPrice(dt.data.y)} ${new Date(
-                dt.data.x,
-              ).toLocaleString()}`
-            : 'Threshold: 4';
-        }}
+        // sliceTooltip={(point) => {
+        //   const dt = point.slice.points.filter(
+        //     (pt) => pt.serieId === 'Price',
+        //   )[0];
+        //   return dt
+        //     ? `${formatPrice(dt.data.y)} ${new Date(
+        //         dt.data.x,
+        //       ).toLocaleString()}`
+        //     : 'Threshold: 4';
+        // }}
       />
     </div>
   );
