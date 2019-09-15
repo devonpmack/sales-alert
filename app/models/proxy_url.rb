@@ -1,4 +1,5 @@
 class ProxyUrl < ApplicationRecord
+  validates_uniqueness_of :ip
   def self.get_proxy
     @index ||= 0
 

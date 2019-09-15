@@ -1,0 +1,22 @@
+<%= form_with(model: proxy_url, local: true) do |form| %>
+  <% if proxy_url.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(proxy_url.errors.count, "error") %> prohibited this proxy_url from being saved:</h2>
+
+      <ul>
+        <% proxy_url.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :ip %>
+    <%= form.text_field :ip %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :tracked_items, only: [:show, :create, :update, :destroy]
   resources :users, only: [:show, :create, :update]
+  resources :proxy_urls
   root 'home#index'
 
   get 'login', to: 'session#new'

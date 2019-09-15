@@ -1,0 +1,9 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Ip:</strong>
+  <%= @proxy_url.ip %>
+</p>
+
+<%= link_to 'Edit', edit_proxy_url_path(@proxy_url) %> |
+<%= link_to 'Back', proxy_urls_path %>
