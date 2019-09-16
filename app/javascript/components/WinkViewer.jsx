@@ -1,12 +1,21 @@
 import React from 'react';
 import {ResponsiveLine} from '@nivo/line';
 import {isMobile} from './helpers';
+import {Stack, Spinner, TextStyle} from '@shopify/polaris';
 
 export default function WinkViewer(props) {
   const {name, threshold, id, queries} = props.wink;
 
   if (!queries || queries.length === 0) {
-    return <div />;
+    return (
+      <Stack vertical distribution="center" alignment="center">
+        <Spinner size="large" />
+        <TextStyle variation="subdued">
+          We have no data yet on your Product. Please wait for us to begin
+          tracking.
+        </TextStyle>
+      </Stack>
+    );
   }
 
   const priceHistory = queries.map((query) => {
