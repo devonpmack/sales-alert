@@ -57,19 +57,21 @@ export default function Profile(props) {
   };
 
   return (
-    <Page title="Price Tracker">
+    <Page fullWidth={viewingWink} title="Price Tracker">
       <Layout>
         <Layout.Section>
-          <CalloutCard
-            title="Keep track of Amazon prices"
-            illustration="https://cdn.shopify.com/s/assets/admin/checkout/settings-customizecart-705f57c725ac05be5a34ec20c05b94298cb8afd10aac7bd9c7ad02030f48cfa0.svg"
-            primaryAction={{
-              content: 'Track a new Product',
-              onClick: () => setCreateMode(true),
-            }}
-          >
-            <p>Click below to start tracking a new Amazon product.</p>
-          </CalloutCard>
+          {!viewingWink && (
+            <CalloutCard
+              title="Keep track of Amazon prices"
+              illustration="https://cdn.shopify.com/s/assets/admin/checkout/settings-customizecart-705f57c725ac05be5a34ec20c05b94298cb8afd10aac7bd9c7ad02030f48cfa0.svg"
+              primaryAction={{
+                content: 'Track a new Product',
+                onClick: () => setCreateMode(true),
+              }}
+            >
+              <p>Click below to start tracking a new Amazon product.</p>
+            </CalloutCard>
+          )}
           <Card
             title={viewingWink ? viewingWink.name : 'Your Tracked Products'}
             secondaryFooterActions={
