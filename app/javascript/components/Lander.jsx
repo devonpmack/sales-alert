@@ -116,7 +116,7 @@ export default function Lander() {
           ],
         },
       ]}
-      detail="Free Member"
+      detail="Member"
       initials={
         currentUser &&
         currentUser.email &&
