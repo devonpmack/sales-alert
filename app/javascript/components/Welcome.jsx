@@ -1,5 +1,6 @@
 import React from 'react';
 import {Page, Layout, CalloutCard} from '@shopify/polaris';
+import {isMobile} from './helpers';
 
 // export interface Props {
 // toggleLogin: () => {};
@@ -21,7 +22,9 @@ export default function Welcome(props) {
               },
             }}
             secondaryAction={{
-              content: "Don't have an account? Click here to sign up for free!",
+              content: isMobile()
+                ? 'Sign up for free'
+                : "Don't have an account? Click here to sign up for free!",
               onAction: () => {
                 toggleLogin(false);
               },
