@@ -40,7 +40,7 @@ export default function WinkViewer(props) {
     },
   ];
   return (
-    <div style={{height: '30em'}}>
+    <div style={{height: '45em'}}>
       <ResponsiveLine
         enablePoints={false}
         lineWidth={4}
