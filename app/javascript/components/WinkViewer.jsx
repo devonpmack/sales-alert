@@ -1,5 +1,6 @@
 import React from 'react';
 import {ResponsiveLine} from '@nivo/line';
+import {isMobile} from './helpers';
 
 export default function WinkViewer(props) {
   const {name, threshold, id, queries} = props.wink;
@@ -40,7 +41,7 @@ export default function WinkViewer(props) {
     },
   ];
   return (
-    <div style={{height: '45em'}}>
+    <div style={{height: isMobile() ? '37em' : '45em'}}>
       <ResponsiveLine
         enablePoints={false}
         lineWidth={4}
@@ -71,7 +72,7 @@ export default function WinkViewer(props) {
         }}
         axisBottom={{
           format: '%b %d %H:%M',
-          tickValues: 6,
+          tickValues: isMobile() ? 3 : 6,
           legend: 'Time',
           legendOffset: 36,
           legendPosition: 'middle',
