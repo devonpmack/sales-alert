@@ -1,7 +1,7 @@
 import React from 'react';
 import {ResponsiveLine} from '@nivo/line';
-import {isMobile} from './helpers';
 import {Stack, Spinner, TextStyle} from '@shopify/polaris';
+import {isMobile} from './helpers';
 
 export default function WinkViewer(props) {
   const {name, threshold, id, queries} = props.wink;
