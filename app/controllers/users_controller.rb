@@ -32,7 +32,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      msg = {success: true, id: @user.id, email: @user.email}
+      msg = {success: true, id: @user.id, auth: @user.password_digest, email: @user.email}
       render json: msg
     else
       msg = {success: false, error: 'That email is in use. Try logging in.'}

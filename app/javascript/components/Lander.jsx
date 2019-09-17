@@ -30,7 +30,7 @@ export default function Lander() {
   const [currentUser, setCurrentUser] = useState(undefined);
   const [loading, setLoading] = useState(null);
 
-  async function getUser(id) {
+  async function getUser(id, auth) {
     if (!loading) setLoading(true);
     try {
       const response = await axios.get(`/users/${id}.json`);
@@ -41,13 +41,15 @@ export default function Lander() {
       setCurrentUser(null);
       setLoading(false);
       Cookies.remove('authToken');
+      Cookies.remove('userId');
     }
   }
 
   useEffect(() => {
-    const cookie = Cookies.get('authToken');
-    if (cookie) {
-      getUser(cookie);
+    const auth = Cookies.get('authToken');
+    const id = Cookies.get('userId');
+    if (auth && id) {
+      getUser(id, auth);
       setLoading(true);
     } else {
       setCurrentUser(null);
@@ -71,8 +73,9 @@ export default function Lander() {
       registerMode={registerMode}
       loggedIn={Boolean(currentUser)}
       onLoggedIn={(user) => {
-        getUser(user.id);
-        Cookies.set('authToken', user.id, {expires: 7});
+        getUser(user.id, user.auth);
+        Cookies.set('userId', user.id, {expires: 7});
+        Cookies.set('authToken', user.auth, {expires: 7});
       }}
     />
   );
@@ -111,6 +114,7 @@ export default function Lander() {
                 await axios.delete('/login');
                 document.location.href = '/';
                 Cookies.remove('authToken');
+                Cookies.remove('userId');
               },
             },
           ],
