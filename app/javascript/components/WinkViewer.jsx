@@ -18,11 +18,16 @@ export default function WinkViewer(props) {
     );
   }
 
-  const priceHistory = queries.map((query) => {
-    return {
-      x: new Date(query.date),
+  const priceHistory = [];
+  queries.forEach((query) => {
+    priceHistory.push({
+      x: new Date(query.date_changed),
       y: query.price,
-    };
+    });
+    priceHistory.push({
+      x: new Date(query.date_updated),
+      y: query.price,
+    });
   });
 
   if (priceHistory.length === 1) {
