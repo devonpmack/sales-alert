@@ -119,7 +119,7 @@ Rails.application.configure do
     :address              => "smtp.gmail.com",
     :port                 => 587,
     :user_name            => "amazonalertsystem@gmail.com",
-    :password             => "FieldMath100",
+    :password             => "FieldMath101",
     :authentication       => "plain",
     :enable_starttls_auto => true
   }
