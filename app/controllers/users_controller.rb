@@ -97,7 +97,7 @@ class UsersController < ApplicationController
         url: item.url,
         name: item.name,
         threshold: item.threshold,
-        queries: item.price_queries.map { |query| {price: query.price, date: query.created_at}}
+        queries: item.price_queries.map { |query| {price: query.price, date_changed: query.created_at, date_updated: query.updated_at} }
       }
     end
 end

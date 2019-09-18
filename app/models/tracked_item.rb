@@ -56,6 +56,10 @@ class TrackedItem < ApplicationRecord
       price_dollars
     end
 
+    def latest_query
+      price_queries.last
+    end
+
     private
 
     def scrape
