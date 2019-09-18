@@ -94,7 +94,7 @@ export default function WinkViewer(props) {
           type: 'linear',
           stacked: false,
           min: Math.min(threshold, ...queries.map((q) => q.price)) * 0.8,
-          max: Math.max(...queries.map((q) => q.price)) * 1.2,
+          max: Math.max(threshold, ...queries.map((q) => q.price)) * 1.2,
         }}
         axisLeft={{
           orient: 'left',

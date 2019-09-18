@@ -36,7 +36,7 @@ class TrackedItem < ApplicationRecord
 
       unless price_block
         logger.error("Failed to get #{url}. Response saved #{response}")
-        IO.write("#{Rails.root}/test.html", response.open.read);
+        # IO.write("#{Rails.root}/test.html", response.open.read);
         response.close
         return nil
       end
