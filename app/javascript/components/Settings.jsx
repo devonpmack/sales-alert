@@ -31,7 +31,7 @@ export default function Settings(props) {
 
   return (
     <Page title="Settings">
-      <Card title="Change Email">
+      <Card title={`Change Email (${email})`}>
         <Card.Section>
           <FormState
             validateOnSubmit

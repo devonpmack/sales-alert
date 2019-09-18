@@ -14,10 +14,11 @@ class RunQueriesJob < ApplicationJob
 
       last_query = item.latest_query
 
-      if last_query && item.lastest_query.price == price_dollars
+      if last_query && last_query.price == price_dollars
         last_query.touch
       else
         PriceQuery.create!(tracked_item_id: item.id, price: price_dollars)
+        # notify user
       end
 
       logger.info("Success")

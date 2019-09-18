@@ -20,6 +20,15 @@ export default function WinkViewer(props) {
 
   const priceHistory = [];
   queries.forEach((query) => {
+    if (!query.date_changed || !query.date_updated) {
+      return;
+    }
+
+    if (priceHistory.length > 0) {
+      priceHistory[priceHistory.length - 1].x = new Date(
+        new Date(query.date_changed).getTime() - 1000,
+      );
+    }
     priceHistory.push({
       x: new Date(query.date_changed),
       y: query.price,
@@ -37,10 +46,20 @@ export default function WinkViewer(props) {
     });
   }
 
+  const latestDate = priceHistory[priceHistory.length - 1].x;
+  const dateDiff = latestDate.getTime() - priceHistory[0].x.getTime();
+
+  const rightEdge = new Date(latestDate.getTime() + dateDiff / 10);
+
   const thresholdLine = [
     {x: new Date(priceHistory[0].x.getTime() - 10000), y: threshold},
-    {x: priceHistory[priceHistory.length - 1].x, y: threshold},
+    {x: rightEdge, y: threshold},
   ];
+
+  priceHistory.push({
+    x: rightEdge,
+    y: priceHistory[priceHistory.length - 1].y,
+  });
 
   const data = [
     {
@@ -54,26 +73,28 @@ export default function WinkViewer(props) {
       data: thresholdLine,
     },
   ];
+
   return (
     <div style={{height: isMobile() ? '37em' : '45em'}}>
       <ResponsiveLine
         enablePoints={false}
         lineWidth={4}
         colors={{scheme: 'nivo'}}
-        margin={{top: 20, right: 20, bottom: 60, left: 55}}
+        margin={{top: 20, right: 55, bottom: 60, left: 55}}
         enableSlices="x"
         data={data}
         xScale={{
           type: 'time',
           format: 'native',
           precision: 'minute',
+          max: rightEdge,
         }}
         xFormat="time:%Y-%m-%d %H:%M:%S"
         yScale={{
           type: 'linear',
           stacked: false,
-          min: threshold * 0.9,
-          max: Math.max(...queries.map((q) => q.price)) * 1.1,
+          min: Math.min(threshold, ...queries.map((q) => q.price)) * 0.8,
+          max: Math.max(...queries.map((q) => q.price)) * 1.2,
         }}
         axisLeft={{
           orient: 'left',

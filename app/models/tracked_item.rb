@@ -56,8 +56,8 @@ class TrackedItem < ApplicationRecord
       price_dollars
     end
 
-    def lastest_query
-      price_queries.last(:order => "id asc", :limit => 1)
+    def latest_query
+      price_queries.last
     end
 
     private
