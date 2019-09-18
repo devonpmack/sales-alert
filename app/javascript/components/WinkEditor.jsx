@@ -20,7 +20,7 @@ export default function WinkEditor(props) {
       searchValue={searchQuery}
       onSearchChange={(value) => setSearchQuery(value)}
       additionalAction={{
-        content: 'Add Wink',
+        content: 'Track a new Product',
         onAction: () => setCreateMode(true),
       }}
     />
@@ -46,7 +46,7 @@ export default function WinkEditor(props) {
     <ResourceList
       loading={loading}
       filterControl={filterControl}
-      resourceName={{singular: 'wink', plural: 'winks'}}
+      resourceName={{singular: 'tracker', plural: 'trackers'}}
       items={filteredItems}
       renderItem={(item) => {
         const {id, name, threshold} = item;
