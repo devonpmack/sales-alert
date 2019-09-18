@@ -1,1 +1,6 @@
-Hi dude
+Hi there,
+This is a notification that your tracked product, <%= @item.name.capitalize %>, is on sale. Its price has dropped to $<%= @price %>! That's $<%= number_with_precision(@item.threshold - @price, :precision => 2) %> below your threshold of $<%= @item.threshold %>.
+
+From: https://saleswink.com
+
+Unsubscribe at https://saleswink.com
