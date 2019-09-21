@@ -39,23 +39,20 @@ export default function WinkViewer(props) {
       x: new Date(query.date_changed),
       y: query.price,
     });
-    priceHistory.push({
-      x: new Date(query.date_updated),
-      y: query.price,
-    });
+    if (sortedQueries.length > 1) {
+      priceHistory.push({
+        x: new Date(query.date_updated),
+        y: query.price,
+      });
+    }
   });
-
-  if (priceHistory.length === 2) {
-    priceHistory.push({
-      x: new Date(priceHistory[0].x.getTime() + 10000),
-      y: priceHistory[0].y,
-    });
-  }
 
   const latestDate = priceHistory[priceHistory.length - 1].x;
   const dateDiff = latestDate.getTime() - priceHistory[0].x.getTime();
 
-  const rightEdge = new Date(latestDate.getTime() + dateDiff / 10);
+  const rightEdge = new Date(
+    latestDate.getTime() + (dateDiff === 0 ? 10000 : dateDiff / 10),
+  );
 
   const thresholdLine = [
     {x: new Date(priceHistory[0].x.getTime() - 10000), y: threshold},
