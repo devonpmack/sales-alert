@@ -2,10 +2,11 @@ class TrackedItem < ApplicationRecord
     belongs_to :user
     has_many :price_queries
 
+    # order of priority
     POSSIBLE_IDS = [
-      "span#priceblock_ourprice",
       "span#priceblock_saleprice",
-      "span#priceblock_dealprice"
+      "span#priceblock_dealprice",
+      "span#priceblock_ourprice"
     ]
 
     def check_threshold(price)
@@ -22,11 +23,11 @@ class TrackedItem < ApplicationRecord
     end
 
     def query
-      response = scrape
+      response = scrape(url)
       unless response
         return
       end
-      doc = Nokogiri::HTML(response)
+      doc = Nokogiri::HTML(response.open.read)
 
       price_block = nil
       POSSIBLE_IDS.each do |id|
@@ -36,7 +37,9 @@ class TrackedItem < ApplicationRecord
 
       unless price_block
         logger.error("Failed to get #{url}. Response saved #{response}")
-        # IO.write("#{Rails.root}/test.html", response.open.read);
+        if Rails.env.development?
+          IO.write("#{Rails.root}/test.html", response.open.read);
+        end
         response.close
         return nil
       end
@@ -49,7 +52,7 @@ class TrackedItem < ApplicationRecord
 
       unless price_dollars
         logger.error "Failed to find price of #{url}"
-        IO.write("#{Rails.root}/test.html", response.open.read);
+        # IO.write("#{Rails.root}/test.html", response.open.read);
         response.close
       end
 
@@ -62,18 +65,18 @@ class TrackedItem < ApplicationRecord
 
     private
 
-    def scrape
+    def scrape(product_url)
       resp = nil
       attempts = 0
       until resp or attempts >= 4
-        logger.info("Attempting to query #{url}")
+        logger.info("Attempting to query #{product_url}")
         attempts += 1
         proxy = ProxyUrl.get_proxy
         fail = false
         begin
-          resp = open(url, open_timeout: 15, proxy: proxy.uri, 'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36')
+          resp = open(product_url, open_timeout: 15, proxy: proxy.uri, 'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36')
         rescue Timeout::Error, EOFError, Errno::ECONNRESET, OpenURI::HTTPError, Net::HTTPFatalError, Exception
-          logger.debug "Error"
+          logger.debug "Error querying"
           fail = true
         end
 
@@ -81,6 +84,16 @@ class TrackedItem < ApplicationRecord
           proxy.increment!(:num_failures)
         else
           proxy.increment!(:num_success)
+        end
+      end
+
+      if resp
+        doc = Nokogiri::HTML(resp)
+        if doc
+          lightning_deal_link = doc.at('a:contains("View Offer")')
+          if lightning_deal_link && lightning_deal_link["href"]
+            return scrape("https://amazon.ca#{lightning_deal_link["href"]}")
+          end
         end
       end
 
