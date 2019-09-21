@@ -18,8 +18,14 @@ export default function WinkViewer(props) {
     );
   }
 
+  const sortedQueries = queries.sort(function(left, right) {
+    const dateA = new Date(left.date_changed);
+    const dateB = new Date(right.date_changed);
+    return dateA - dateB;
+  });
+
   const priceHistory = [];
-  queries.forEach((query) => {
+  sortedQueries.forEach((query) => {
     if (!query.date_changed || !query.date_updated) {
       return;
     }
