@@ -39,7 +39,7 @@ export default function WinkViewer(props) {
       x: new Date(query.date_changed),
       y: query.price,
     });
-    if (sortedQueries.length > 1) {
+    if (query.date_changed !== query.date_updated) {
       priceHistory.push({
         x: new Date(query.date_updated),
         y: query.price,
@@ -55,7 +55,7 @@ export default function WinkViewer(props) {
   );
 
   const thresholdLine = [
-    {x: new Date(priceHistory[0].x.getTime() - 10000), y: threshold},
+    {x: new Date(priceHistory[0].x.getTime()), y: threshold},
     {x: rightEdge, y: threshold},
   ];
 
