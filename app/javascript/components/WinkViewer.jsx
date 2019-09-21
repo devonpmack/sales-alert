@@ -45,7 +45,7 @@ export default function WinkViewer(props) {
     });
   });
 
-  if (priceHistory.length === 1) {
+  if (priceHistory.length === 2) {
     priceHistory.push({
       x: new Date(priceHistory[0].x.getTime() + 10000),
       y: priceHistory[0].y,
