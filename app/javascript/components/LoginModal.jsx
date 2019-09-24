@@ -20,7 +20,7 @@ export default function LoginModal(props) {
     if (response.data.success) {
       onLoggedIn(response.data);
     } else {
-      setError('Invalid email or password.');
+      setError('Incorrect email or password.');
     }
     setLoading(false);
   };
