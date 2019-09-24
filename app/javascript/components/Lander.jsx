@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react';
-import {BrowserRouter, Route, Redirect} from 'react-router-dom';
+import {BrowserRouter, Route, Redirect, Switch} from 'react-router-dom';
 import axios from 'axios-on-rails';
 import Cookies from 'js-cookie';
 import {AppProvider, TopBar, Frame} from '@shopify/polaris';
@@ -139,35 +139,38 @@ export default function Lander() {
             ) : null}
             {currentUser === null ? <Redirect to="/" /> : null}
             {loginModalMarkup}
-            <Route
-              path="/"
-              exact
-              render={(rprops) => (
-                <Welcome {...rprops} toggleLogin={toggleLoginOpen} />
-              )}
-            />
-            <Route
-              path="/profile"
-              render={(rprops) => (
-                <Profile
-                  {...rprops}
-                  loading={loading}
-                  refresh={getUser}
-                  user={currentUser}
-                />
-              )}
-            />
-            <Route
-              path="/settings"
-              render={(rprops) => (
-                <Settings
-                  {...rprops}
-                  loading={loading}
-                  email={currentUser && currentUser.email}
-                  id={currentUser && currentUser.id}
-                />
-              )}
-            />
+            <Switch>
+              <Route
+                path="/"
+                exact
+                render={(rprops) => (
+                  <Welcome {...rprops} toggleLogin={toggleLoginOpen} />
+                )}
+              />
+              <Route
+                path="/profile"
+                render={(rprops) => (
+                  <Profile
+                    {...rprops}
+                    loading={loading}
+                    refresh={getUser}
+                    user={currentUser}
+                  />
+                )}
+              />
+              <Route
+                path="/settings"
+                render={(rprops) => (
+                  <Settings
+                    {...rprops}
+                    loading={loading}
+                    email={currentUser && currentUser.email}
+                    id={currentUser && currentUser.id}
+                  />
+                )}
+              />
+              <Route render={() => <Redirect to={{pathname: '/'}} />} />
+            </Switch>
           </Frame>
         </AppProvider>
       </BrowserRouter>
