@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :proxy_urls
   root 'home#index'
 
+  post 'query/:id', to: 'query#query'
   get 'login', to: 'session#new'
   post 'login', to: 'session#create'
   delete 'login', to: 'session#destroy'
