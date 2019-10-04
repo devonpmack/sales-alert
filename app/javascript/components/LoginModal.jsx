@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {EventListener, Modal, TextField, Banner} from '@shopify/polaris';
 import FormState from '@shopify/react-form-state';
 import axios from 'axios-on-rails';
+import ReactGA from 'react-ga';
 
 export default function LoginModal(props) {
   const {loggedIn, registerMode, setRegisterMode, onLoggedIn} = props;
@@ -19,6 +20,10 @@ export default function LoginModal(props) {
     });
     if (response.data.success) {
       onLoggedIn(response.data);
+      ReactGA.event({
+        category: 'User',
+        action: 'Log in',
+      });
     } else {
       setError('Incorrect email or password.');
     }
@@ -36,6 +41,10 @@ export default function LoginModal(props) {
     });
     if (response.data.success) {
       onLoggedIn(response.data);
+      ReactGA.event({
+        category: 'User',
+        action: 'Create an Account',
+      });
     } else {
       setError(response.data.error);
     }
