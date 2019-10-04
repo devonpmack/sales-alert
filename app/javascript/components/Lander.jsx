@@ -4,10 +4,16 @@ import {BrowserRouter, Route, Redirect, Switch} from 'react-router-dom';
 import axios from 'axios-on-rails';
 import Cookies from 'js-cookie';
 import {AppProvider, TopBar, Frame} from '@shopify/polaris';
+import ReactGA from 'react-ga';
 import LoginModal from './LoginModal';
 import Welcome from './Welcome';
 import Profile from './Profile';
 import Settings from './Settings';
+
+function initializeReactGA() {
+  ReactGA.initialize('UA-149421666-1');
+  ReactGA.pageview('/homepage');
+}
 
 export default function Lander() {
   const theme = {
@@ -52,6 +58,8 @@ export default function Lander() {
     } else {
       setCurrentUser(null);
     }
+
+    initializeReactGA();
   }, []);
 
   const toggleUserMenu = () => {
