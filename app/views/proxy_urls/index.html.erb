@@ -13,7 +13,7 @@
   <tbody>
     <% @proxy_urls.each do |proxy_url| %>
       <tr>
-        <td><%= proxy_url.ip %> <%= proxy_url.num_success + proxy_url.num_failures %></td>
+        <td><%= proxy_url.ip %></td>
         <td><%= 100.0 * proxy_url.num_success / (proxy_url.num_success + proxy_url.num_failures) %></td>
         <td><%= proxy_url.num_success + proxy_url.num_failures %></td>
         <td><%= link_to 'Show', proxy_url %></td>

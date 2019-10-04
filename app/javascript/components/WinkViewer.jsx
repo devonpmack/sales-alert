@@ -35,10 +35,12 @@ export default function WinkViewer(props) {
         new Date(query.date_changed).getTime() - 1000,
       );
     }
+
     priceHistory.push({
       x: new Date(query.date_changed),
       y: query.price,
     });
+
     if (query.date_changed !== query.date_updated) {
       priceHistory.push({
         x: new Date(query.date_updated),
