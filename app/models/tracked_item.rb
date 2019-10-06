@@ -27,8 +27,11 @@ class TrackedItem < ApplicationRecord
       unless response
         return
       end
-      doc = Nokogiri::HTML(response.open.read)
+      doc = Nokogiri::HTML(response&.open&.read)
 
+      unless doc
+        return
+      end
       price_block = nil
       POSSIBLE_IDS.each do |id|
         price_block = doc.at_css(id)
