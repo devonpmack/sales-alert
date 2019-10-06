@@ -11,7 +11,7 @@ import Profile from './Profile';
 import Settings from './Settings';
 
 function initializeReactGA() {
-  ReactGA.initialize('UA-149421666-1');
+  ReactGA.initialize('UA-149453808-1');
   ReactGA.pageview('/homepage');
 }
 
