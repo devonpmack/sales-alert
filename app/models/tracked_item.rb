@@ -71,7 +71,7 @@ class TrackedItem < ApplicationRecord
     def scrape(product_url)
       resp = nil
       attempts = 0
-      until resp or attempts >= 4
+      until resp or attempts >= 8
         logger.info("Attempting to query #{product_url}")
         attempts += 1
         proxy = ProxyUrl.get_proxy
