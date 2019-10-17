@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'login', to: 'session#new'
   post 'login', to: 'session#create'
   delete 'login', to: 'session#destroy'
+  post 'query/:id', to: 'query#query'
 
   get '/*path', to: 'home#index'
 

@@ -94,7 +94,8 @@ export default function WinkFormModal(props) {
         };
 
         if (createMode) {
-          await axios.post('/tracked_items.json', payload);
+          const resp = await axios.post('/tracked_items.json', payload);
+          await axios.post(`/query/${resp.data.id}`);
         } else {
           await axios.patch(`/tracked_items/${wink.id}.json`, payload);
         }
