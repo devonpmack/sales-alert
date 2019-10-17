@@ -1,10 +1,9 @@
 Rails.application.routes.draw do
-  resources :tracked_items, only: [:show, :create, :update, :destroy, :query]
+  resources :tracked_items, only: [:show, :create, :update, :destroy]
   resources :users, only: [:show, :create, :update]
   resources :proxy_urls
   root 'home#index'
 
-  post 'query/:id', to: 'query#query'
   get 'login', to: 'session#new'
   post 'login', to: 'session#create'
   delete 'login', to: 'session#destroy'
