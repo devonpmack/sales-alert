@@ -1,5 +1,6 @@
 import React, {useState, useEffect, Route} from 'react';
 import {Redirect} from 'react-router-dom';
+import promisePoller from 'promise-poller';
 import {MobileChevronMajorMonotone} from '@shopify/polaris-icons';
 import {
   Page,
@@ -11,6 +12,7 @@ import {
   SkeletonBodyText,
   SkeletonPage,
 } from '@shopify/polaris';
+import axios from 'axios-on-rails';
 import WinkEditor from './WinkEditor';
 import WinkFormModal from './WinkFormModal';
 
@@ -112,7 +114,10 @@ export default function Profile(props) {
               setCreateMode(false);
             }}
             wink={itemOpen}
-            onSubmit={() => {
+            onSubmit={(id) => {
+              if (id) {
+                pollFirstQuery(id);
+              }
               setItemOpen(false);
               setCreateMode(false);
               refresh(user.id);
@@ -123,4 +128,34 @@ export default function Profile(props) {
       </Layout>
     </Page>
   );
+
+  async function pollItem(itemId, resolve, reject) {
+    const response = await axios.get(`/tracked_items/${itemId}`);
+
+    if (response && response.data && response.data.winks.length > 0) {
+      resolve(response.data.winks);
+    } else {
+      reject('Fail');
+    }
+  }
+
+  async function pollFirstQuery(id) {
+    const taskFn = () => {
+      return new Promise((resolve, reject) => {
+        pollItem(id, resolve, reject);
+      });
+    };
+    const resp = await promisePoller({
+      taskFn,
+      interval: 1000,
+      retries: 30,
+    });
+
+    setViewingWink(undefined);
+
+    // if (viewingWink && viewingWink.id === id) {
+    //   setViewingWink({...viewingWink, winks: resp});
+    // }
+    refresh(user.id);
+  }
 }

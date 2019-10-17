@@ -11,12 +11,7 @@ class TrackedItemsController < ApplicationController
   # GET /tracked_items/1
   # GET /tracked_items/1.json
   def show
-    latest = @tracked_item.latest_query
-    if latest
-      render json: {price: latest.price}
-    else
-      render json: {price: nil}
-    end
+    render json: {winks: @tracked_item.price_queries}
   end
 
   # GET /tracked_items/new
