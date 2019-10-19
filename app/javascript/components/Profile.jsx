@@ -148,7 +148,7 @@ export default function Profile(props) {
     const resp = await promisePoller({
       taskFn,
       interval: 1000,
-      retries: 30,
+      retries: 60,
     });
 
     setViewingWink(undefined);
