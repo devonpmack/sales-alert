@@ -13,7 +13,7 @@
     "@shopify/polaris-icons": "^3.4.0",
     "@shopify/polaris-tokens": "^2.6.0",
     "@shopify/react-form-state": "^0.11.6",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "axios-on-rails": "^0.0.1",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "eslint": "^6.1.0",
